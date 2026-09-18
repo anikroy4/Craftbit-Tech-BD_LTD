@@ -42,7 +42,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#020408]/90 backdrop-blur-xl border-b border-blue-500/10 shadow-lg shadow-black/20'
+            ? 'bg-dark-900/90 backdrop-blur-xl border-b border-blue-500/10 shadow-lg shadow-black/20'
             : 'bg-transparent'
         }`}
       >
@@ -59,7 +59,7 @@ export default function Navbar() {
               {/* Icon mark */}
               <div className="relative w-9 h-9">
                 <div className="absolute inset-0 bg-blue-500 rounded-lg rotate-6 opacity-30 group-hover:rotate-12 transition-transform duration-300" />
-                <div className="relative w-9 h-9 bg-gradient-to-br from-blue-500 to-violet-600 rounded-lg flex items-center justify-center">
+                <div className="relative w-9 h-9 bg-linear-to-br from-blue-500 to-violet-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-black text-sm tracking-tight">CB</span>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function Navbar() {
                   {active === link.href && (
                     <motion.span
                       layoutId="activeNav"
-                      className="absolute bottom-1 left-4 right-4 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full"
+                      className="absolute bottom-1 left-4 right-4 h-0.5 bg-linear-to-r from-blue-500 to-violet-500 rounded-full"
                     />
                   )}
                 </button>
@@ -128,7 +128,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-20 left-0 right-0 z-40 bg-[#060c14]/95 backdrop-blur-xl border-b border-blue-500/10 lg:hidden"
+            className="fixed top-20 left-0 right-0 z-40 bg-dark-800/95 backdrop-blur-xl border-b border-blue-500/10 lg:hidden"
           >
             <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (

@@ -58,8 +58,8 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-28 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-      <div className="absolute bottom-1/2 right-0 w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[80px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
+      <div className="absolute bottom-1/2 right-0 w-200 h-200 rounded-full bg-blue-600/5 blur-[80px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -193,9 +193,9 @@ export default function Contact() {
                         onChange={handle('service')}
                         className="w-full px-4 py-3 bg-white/4 border border-white/10 hover:border-white/20 focus:border-blue-500/60 rounded-xl text-white text-sm outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/20 appearance-none cursor-pointer"
                       >
-                        <option value="" className="bg-[#0f1f35]">Select a service</option>
+                        <option value="" className="bg-dark-600">Select a service</option>
                         {SERVICES.map((s) => (
-                          <option key={s} value={s} className="bg-[#0f1f35]">{s}</option>
+                          <option key={s} value={s} className="bg-dark-600">{s}</option>
                         ))}
                       </select>
                     </div>

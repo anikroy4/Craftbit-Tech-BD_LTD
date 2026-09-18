@@ -36,9 +36,9 @@ function ProjectCard({ project, index }) {
       )}
 
       {/* Gradient background panel */}
-      <div className={`h-40 bg-gradient-to-br ${c.gradient} flex items-center justify-center relative overflow-hidden`}>
+      <div className={`h-40 bg-linear-to-br ${c.gradient} flex items-center justify-center relative overflow-hidden`}>
         <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${c.gradient} border border-white/10 flex items-center justify-center backdrop-blur-sm`}>
+        <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${c.gradient} border border-white/10 flex items-center justify-center backdrop-blur-sm`}>
           <Code2 size={28} className="text-white/60" />
         </div>
         {/* Hover overlay */}
@@ -96,7 +96,7 @@ export default function Portfolio() {
 
   return (
     <section id="portfolio" className="py-28 relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

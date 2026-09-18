@@ -6,9 +6,9 @@ import { aboutData } from '../data/siteData';
 const iconMap = { Zap, Code2, Users, Trophy };
 
 const colorAvatarMap = {
-  blue:    'from-blue-600 to-blue-400',
-  purple:  'from-violet-600 to-violet-400',
-  cyan:    'from-cyan-600 to-cyan-400',
+  blue: 'from-blue-600 to-blue-400',
+  purple: 'from-violet-600 to-violet-400',
+  cyan: 'from-cyan-600 to-cyan-400',
   emerald: 'from-emerald-600 to-emerald-400',
 };
 
@@ -18,7 +18,7 @@ export default function About() {
   return (
     <section id="about" className="py-28 relative overflow-hidden">
       {/* Glow */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-violet-600/5 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-125 h-125 rounded-full bg-violet-600/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -113,7 +113,7 @@ export default function About() {
                 className="glass-card p-6 text-center group"
               >
                 {/* Avatar */}
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colorAvatarMap[member.color]} flex items-center justify-center mx-auto mb-4 text-white font-black text-lg shadow-lg`}>
+                <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${colorAvatarMap[member.color]} flex items-center justify-center mx-auto mb-4 text-white font-black text-lg shadow-lg`}>
                   {member.initials}
                 </div>
                 <h4 className="font-display font-700 text-white text-sm mb-1">{member.name}</h4>

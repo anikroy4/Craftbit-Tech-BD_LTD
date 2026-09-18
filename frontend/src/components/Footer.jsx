@@ -48,7 +48,7 @@ export default function Footer() {
   return (
     <footer className="relative border-t border-white/5 pt-16 pb-8">
       {/* Top glow line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-linear-to-r from-transparent via-blue-500/30 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -64,7 +64,7 @@ export default function Footer() {
               <div className="flex items-center gap-3 mb-4">
                 <div className="relative w-9 h-9">
                   <div className="absolute inset-0 bg-blue-500 rounded-lg rotate-6 opacity-30" />
-                  <div className="relative w-9 h-9 bg-gradient-to-br from-blue-500 to-violet-600 rounded-lg flex items-center justify-center">
+                  <div className="relative w-9 h-9 bg-linear-to-br from-blue-500 to-violet-600 rounded-lg flex items-center justify-center">
                     <span className="text-white font-black text-sm tracking-tight">CB</span>
                   </div>
                 </div>

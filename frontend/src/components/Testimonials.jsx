@@ -42,9 +42,9 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-28 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
       {/* Glow */}
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-200 h-200 rounded-full bg-blue-600/5 blur-[80px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -74,7 +74,7 @@ export default function Testimonials() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative"
         >
-          <div className="glass-card p-8 sm:p-12 relative overflow-hidden min-h-[320px] flex flex-col justify-between">
+          <div className="glass-card p-8 sm:p-12 relative overflow-hidden min-h-80 flex flex-col justify-between">
             {/* Quote icon bg */}
             <Quote
               size={120}
@@ -106,7 +106,7 @@ export default function Testimonials() {
 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${avatarColors[t.color]} flex items-center justify-center text-white font-black text-sm shadow-lg`}>
+                  <div className={`w-12 h-12 rounded-xl bg-linear-to-br ${avatarColors[t.color]} flex items-center justify-center text-white font-black text-sm shadow-lg`}>
                     {t.avatar}
                   </div>
                   <div>
@@ -159,8 +159,8 @@ export default function Testimonials() {
             <button
               key={t.id}
               onClick={() => { setDir(i > current ? 1 : -1); setCurrent(i); }}
-              className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarColors[t.color]} flex items-center justify-center text-white text-xs font-black transition-all duration-300 ${
-                i === current ? 'scale-110 ring-2 ring-blue-500 ring-offset-2 ring-offset-[#020408]' : 'opacity-50 hover:opacity-80'
+              className={`w-10 h-10 rounded-full bg-linear-to-br ${avatarColors[t.color]} flex items-center justify-center text-white text-xs font-black transition-all duration-300 ${
+                i === current ? 'scale-110 ring-2 ring-blue-500 ring-offset-2 ring-offset-dark-900' : 'opacity-50 hover:opacity-80'
               }`}
             >
               {t.avatar}

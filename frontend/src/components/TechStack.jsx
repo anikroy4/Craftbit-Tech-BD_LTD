@@ -18,7 +18,7 @@ function SkillBar({ name, level, inView, delay }) {
           initial={{ width: 0 }}
           animate={inView ? { width: `${level}%` } : { width: 0 }}
           transition={{ duration: 1, delay, ease: 'easeOut' }}
-          className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400"
+          className="h-full rounded-full bg-linear-to-r from-blue-600 to-blue-400"
         />
       </div>
     </div>
@@ -51,7 +51,7 @@ export default function TechStack() {
 
   return (
     <section id="tech" className="py-28 relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-violet-500/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-px bg-linear-to-r from-transparent via-violet-500/20 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
