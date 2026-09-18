@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4"
       style={{ background: 'linear-gradient(135deg, #F8FAFF 0%, #E8EEF8 100%)' }}>
-      <div className="text-center max-w-lg">
+      <div className="text-center max-w-lg mx-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}

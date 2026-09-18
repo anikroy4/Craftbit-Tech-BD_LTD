@@ -119,30 +119,30 @@ export default function Team() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16 gap-6"
+          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 rounded-full text-[11px] font-bold uppercase tracking-[0.18em] text-[#1A56DB] mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1A56DB]" />
-              The People
-            </div>
-            <h2
-              className="text-4xl md:text-5xl font-extrabold text-[#0B1F6B] mb-4 leading-tight"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              Meet Our Expert Team
-            </h2>
-            <p className="text-slate-500 text-lg max-w-lg">
-              A passionate team of engineers, designers, and architects committed to building world-class software.
-            </p>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 rounded-full text-[11px] font-bold uppercase tracking-[0.18em] text-[#1A56DB] mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1A56DB]" />
+            The People
           </div>
-          <Link
-            to="/team"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 rounded-xl text-[#0B1F6B] text-sm font-semibold hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all shrink-0 group"
+          <h2
+            className="text-4xl md:text-5xl font-extrabold text-[#0B1F6B] mb-4 leading-tight"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            Full Team
-            <FiArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </Link>
+            Meet Our Expert Team
+          </h2>
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto mb-6">
+            A passionate team of engineers, designers, and architects committed to building world-class software.
+          </p>
+          <div className="flex justify-center">
+            <Link
+              to="/team"
+              className="inline-flex items-center gap-2 px-6 py-2.5 border border-slate-200 rounded-xl text-[#0B1F6B] text-sm font-semibold hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all group bg-white shadow-sm"
+            >
+              Full Team Overview
+              <FiArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </motion.div>
 
         {/* Grid */}

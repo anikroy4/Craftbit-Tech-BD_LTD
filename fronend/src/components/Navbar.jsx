@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNav, closeNav, setScrolled } from '../features/ui/uiSlice';

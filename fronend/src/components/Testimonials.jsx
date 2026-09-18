@@ -34,8 +34,8 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-[#FAFBFF] overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 md:py-32 bg-[#FAFBFF] overflow-hidden mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
         <motion.div
@@ -104,34 +104,53 @@ export default function Testimonials() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation */}
+          {/* Desktop Navigation */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 md:-translate-x-8 w-12 h-12 bg-white border border-slate-200 text-slate-600 rounded-2xl flex items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all shadow-md hover:shadow-lg"
+            aria-label="Previous testimonial"
+            className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 md:-translate-x-8 w-12 h-12 bg-white border border-slate-200 text-slate-600 rounded-2xl items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all shadow-md hover:shadow-lg z-10"
           >
             <FiChevronLeft size={20} />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 md:translate-x-8 w-12 h-12 bg-white border border-slate-200 text-slate-600 rounded-2xl flex items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all shadow-md hover:shadow-lg"
+            aria-label="Next testimonial"
+            className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 md:translate-x-8 w-12 h-12 bg-white border border-slate-200 text-slate-600 rounded-2xl items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB] transition-all shadow-md hover:shadow-lg z-10"
           >
             <FiChevronRight size={20} />
           </button>
         </div>
 
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-10">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => dispatch(setActiveIndex(i))}
-              className={`rounded-full transition-all duration-300 ${
-                i === activeIndex
-                  ? 'w-8 h-2.5 bg-[#1A56DB]'
-                  : 'w-2.5 h-2.5 bg-slate-200 hover:bg-slate-300'
-              }`}
-            />
-          ))}
+        {/* Dots & Mobile Controls */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            onClick={handlePrev}
+            aria-label="Previous testimonial"
+            className="sm:hidden w-10 h-10 bg-white border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB]"
+          >
+            <FiChevronLeft size={18} />
+          </button>
+          <div className="flex justify-center gap-2">
+            {items.map((_, i) => (
+              <button
+                key={i}
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => dispatch(setActiveIndex(i))}
+                className={`rounded-full transition-all duration-300 ${
+                  i === activeIndex
+                    ? 'w-8 h-2.5 bg-[#1A56DB]'
+                    : 'w-2.5 h-2.5 bg-slate-200 hover:bg-slate-300'
+                }`}
+              />
+            ))}
+          </div>
+          <button
+            onClick={handleNext}
+            aria-label="Next testimonial"
+            className="sm:hidden w-10 h-10 bg-white border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center hover:border-[#1A56DB] hover:text-[#1A56DB]"
+          >
+            <FiChevronRight size={18} />
+          </button>
         </div>
 
         {/* Trust indicator */}

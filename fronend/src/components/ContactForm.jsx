@@ -52,7 +52,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-white">
+    <section id="contact" className="py-24 md:py-32 bg-white mx-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -61,7 +61,7 @@ export default function ContactForm() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="max-w-2xl mb-16"
+          className="text-center max-w-2xl mx-auto mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 rounded-full text-[11px] font-bold uppercase tracking-[0.18em] text-[#1A56DB] mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1A56DB]" />

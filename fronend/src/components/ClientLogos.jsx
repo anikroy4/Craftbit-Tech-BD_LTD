@@ -34,7 +34,7 @@ export default function ClientLogos() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-slate-100 overflow-hidden">
+    <section className="py-16 md:py-20 bg-white border-y border-slate-100 overflow-hidden mx-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <motion.div
           ref={ref}

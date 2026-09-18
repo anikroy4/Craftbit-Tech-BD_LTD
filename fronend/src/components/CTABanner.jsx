@@ -7,7 +7,7 @@ export default function CTABanner() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <section className="py-8 md:py-10">
+    <section className="py-20 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
