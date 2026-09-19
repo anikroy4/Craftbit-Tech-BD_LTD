@@ -1,162 +1,116 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { ArrowUp } from 'lucide-react';
-import { socialLinks } from '../data/siteData';
-import {
-  FaGithub, FaLinkedin, FaFacebook, FaTwitter,
-} from 'react-icons/fa';
-
-const socialIconMap = { Github: FaGithub, Linkedin: FaLinkedin, Facebook: FaFacebook, Twitter: FaTwitter };
-
-const footerLinks = [
-  {
-    title: 'Services',
-    links: [
-      { label: 'Web Development', href: '#services' },
-      { label: 'Mobile Apps',     href: '#services' },
-      { label: 'Cloud & DevOps',  href: '#services' },
-      { label: 'AI & Automation', href: '#services' },
-      { label: 'UI/UX Design',    href: '#services' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Us',   href: '#about' },
-      { label: 'Portfolio',  href: '#portfolio' },
-      { label: 'Tech Stack', href: '#tech' },
-      { label: 'Careers',    href: '#contact' },
-      { label: 'Blog',       href: '#' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy',    href: '#' },
-      { label: 'Terms of Service',  href: '#' },
-      { label: 'Cookie Policy',     href: '#' },
-      { label: 'Refund Policy',     href: '#' },
-    ],
-  },
-];
+import { Link } from 'react-router-dom';
+import { 
+  FiGithub, FiLinkedin, FiFacebook, FiTwitter, FiMail, 
+  FiPhone, FiMapPin, FiArrowUp, FiShield, FiHeart, FiLayers
+} from 'react-icons/fi';
 
 export default function Footer() {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <footer className="relative border-t border-white/5 pt-16 pb-8">
-      {/* Top glow line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-linear-to-r from-transparent via-blue-500/30 to-transparent" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Top row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
-            {/* Brand */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative w-9 h-9">
-                  <div className="absolute inset-0 bg-blue-500 rounded-lg rotate-6 opacity-30" />
-                  <div className="relative w-9 h-9 bg-linear-to-br from-blue-500 to-violet-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-black text-sm tracking-tight">CB</span>
-                  </div>
-                </div>
-                <div>
-                  <div className="font-display font-800 text-[17px] text-white tracking-tight leading-none">CraftBit</div>
-                  <div className="text-[10px] font-semibold tracking-[2px] uppercase text-blue-400">Tech BD</div>
-                </div>
-              </div>
-              <p className="text-sm text-slate-400 leading-relaxed max-w-xs mb-5">
-                Building world-class digital products with the MERN stack.
-                Your trusted technology partner from Bangladesh to the world.
-              </p>
-
-              {/* Social */}
-              <div className="flex gap-3">
-                {socialLinks.map((s) => {
-                  const Icon = socialIconMap[s.icon];
-                  return (
-                    <a
-                      key={s.name}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={s.name}
-                      className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-blue-500/10 hover:border-blue-500/30 flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all duration-200"
-                    >
-                      <Icon size={14} />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Link columns */}
-            {footerLinks.map((col) => (
-              <div key={col.title}>
-                <h4 className="text-xs font-bold text-white uppercase tracking-[1.5px] mb-4">{col.title}</h4>
-                <ul className="space-y-2.5">
-                  {col.links.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        className="text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Newsletter strip */}
-          <div className="glass-card p-6 mb-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <div className="font-display font-700 text-white text-sm mb-0.5">Stay Updated</div>
-              <div className="text-xs text-slate-400">Get the latest news and updates from CraftBit Tech BD</div>
-            </div>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 sm:w-64 px-4 py-2.5 bg-white/4 border border-white/10 focus:border-blue-500/50 rounded-xl text-white placeholder-slate-500 text-sm outline-none transition-all"
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-grid">
+          {/* Brand Info */}
+          <div className="footer-brand-col">
+            <Link to="/" className="brand mb-4 inline-flex">
+              <img 
+                src="/logo.png" 
+                alt="CraftBit Tech BD Logo" 
+                className="brand-logo-img"
               />
-              <button className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl btn-glow transition-colors whitespace-nowrap">
-                Subscribe
-              </button>
+              <div className="brand-text">
+                Craftbit <span className="text-sky-400">Tech BD</span>
+                <span className="brand-sub">LTD</span>
+              </div>
+            </Link>
+            <p className="footer-desc">
+              Pioneering high-velocity software engineering, scalable cloud systems, and next-gen AI automation from Dhaka, Bangladesh to global enterprises.
+            </p>
+            <div className="social-links">
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="social-icon" aria-label="GitHub">
+                <FiGithub size={17} />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-icon" aria-label="LinkedIn">
+                <FiLinkedin size={17} />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon" aria-label="Facebook">
+                <FiFacebook size={17} />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon" aria-label="Twitter">
+                <FiTwitter size={17} />
+              </a>
             </div>
           </div>
 
-          {/* Bottom row */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/5">
-            <p className="text-xs text-slate-500 text-center sm:text-left">
-              © {new Date().getFullYear()} CraftBit Tech BD Ltd. All rights reserved.
-              Built with ❤️ in Dhaka, Bangladesh.
-            </p>
-            <div className="flex items-center gap-6">
-              <span className="flex items-center gap-1.5 text-xs text-slate-500">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                All systems operational
-              </span>
-              <button
-                onClick={scrollTop}
-                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:bg-blue-500/10 hover:border-blue-500/30 flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all duration-200"
-                aria-label="Back to top"
-              >
-                <ArrowUp size={14} />
-              </button>
+          {/* Quick Links */}
+          <div>
+            <h4 className="footer-col-title">Navigation</h4>
+            <ul className="footer-links">
+              <li><Link to="/">Home Overview</Link></li>
+              <li><Link to="/services">Software Services</Link></li>
+              <li><Link to="/portfolio">Selected Case Studies</Link></li>
+              <li><Link to="/about">About & Leadership</Link></li>
+              <li><Link to="/contact">Request Estimate</Link></li>
+            </ul>
+          </div>
+
+          {/* Core Tech Offerings */}
+          <div>
+            <h4 className="footer-col-title">Core Services</h4>
+            <ul className="footer-links">
+              <li>Full-Stack Web Development</li>
+              <li>React Native Mobile Apps</li>
+              <li>AWS Cloud & DevOps Automation</li>
+              <li>Custom LLM & AI Agents</li>
+              <li>Cybersecurity Hardening</li>
+              <li>Figma UI/UX Design Systems</li>
+            </ul>
+          </div>
+
+          {/* Dhaka Headquarters */}
+          <div>
+            <h4 className="footer-col-title">Dhaka Office</h4>
+            <div className="footer-contact-items">
+              <div className="flex items-start gap-3 text-sm text-slate-300">
+                <FiMapPin className="text-sky-400 mt-1 shrink-0" size={16} />
+                <span>House 12, Road 5, Banani Commercial Area, Dhaka 1213, Bangladesh</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-slate-300">
+                <FiMail className="text-sky-400 shrink-0" size={16} />
+                <a href="mailto:contact@craftbittechbd.com" className="hover:text-white transition-colors">
+                  contact@craftbittechbd.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-slate-300">
+                <FiPhone className="text-sky-400 shrink-0" size={16} />
+                <span>+880 1700-000000</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-emerald-400 pt-1 font-semibold">
+                <FiShield size={14} />
+                <span>Government Registered Entity (Govt of Bangladesh)</span>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="footer-bottom">
+          <div className="flex items-center gap-1.5">
+            <span>© {new Date().getFullYear()} Craftbit Tech BD Ltd. Built with</span>
+            <FiHeart className="text-rose-500 inline" size={13} />
+            <span>in Dhaka, Bangladesh.</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="hover:text-slate-200 transition-colors">Privacy Policy</Link>
+            <Link to="/" className="hover:text-slate-200 transition-colors">Terms of Service</Link>
+            <button onClick={scrollToTop} className="back-to-top-btn" aria-label="Scroll to top">
+              <FiArrowUp size={15} />
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
   );

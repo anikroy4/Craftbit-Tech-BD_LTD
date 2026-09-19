@@ -1,27 +1,38 @@
-import Navbar       from './components/Navbar';
-import Hero         from './components/Hero';
-import Services     from './components/Services';
-import About        from './components/About';
-import Portfolio    from './components/Portfolio';
-import TechStack    from './components/TechStack';
-import Testimonials from './components/Testimonials';
-import Contact      from './components/Contact';
-import Footer       from './components/Footer';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import ServicesPage from './pages/ServicesPage';
+import PortfolioPage from './pages/PortfolioPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+  return null;
+}
 
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-[#020408]">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <About />
-        <Portfolio />
-        <TechStack />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="app-container">
+        <Navbar />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
