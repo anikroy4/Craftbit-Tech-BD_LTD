@@ -4,10 +4,10 @@ import { FiZap, FiCode, FiShield, FiUsers, FiAward, FiCheckCircle } from 'react-
 export default function AboutPage() {
   const team = [
     { 
-      name: 'Rafiul Islam', 
+      name: 'Anik Roy', 
       role: 'CEO & Principal Architect', 
-      exp: '8+ Years Exp', 
-      focus: 'MERN, Microservices, AWS',
+      exp: '2+ Years Exp', 
+      focus: 'MERN, React Native,CI/CD',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
     },
     { 
@@ -92,12 +92,14 @@ export default function AboutPage() {
                 <div className="about-brand-logo-frame">
                   <img 
                     src="/logo.png" 
-                    alt="CraftBit Tech BD" 
+                     
+                    alt="CraftBit Tech BD LTD Master Brand Identity" 
                     className="about-showcase-logo"
                   />
                 </div>
                 <div className="text-center mt-4">
                   <span className="text-xs font-bold text-sky-400 uppercase tracking-widest">Smart • Simple • Scalable</span>
+                  <span className="text-xs font-bold text-sky-400 uppercase tracking-widest">Quantum Architecture • Smart • Simple • Scalable</span>
                   <p className="text-xs text-slate-400 mt-1">Official Brand Identity & Technology Trademark</p>
                 </div>
               </div>

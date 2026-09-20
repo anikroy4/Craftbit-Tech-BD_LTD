@@ -260,12 +260,12 @@ export default function Home() {
             </div>
             <h2>Pioneering Software Engineering in <span className="gradient-text">Bangladesh</span></h2>
             <p>
-              Founded with the vision to deliver Silicon-Valley caliber engineering from Dhaka to businesses worldwide, Craftbit Tech BD Ltd brings together elite software engineers, UI/UX researchers, and DevOps architects.
+              Founded with the vision to deliver Silicon-Valley caliber engineering from Dhaka to businesses worldwide, CraftBit Tech BD Ltd brings together elite software engineers, UI/UX researchers, and DevOps architects.
             </p>
             <p>
               We don't just write code; we partner with your business from day zero to architect durable software that scales effortlessly with your user growth.
             </p>
-            <div className="flex flex-wrap gap-4 mt-6">
+            <div className="about-actions">
               <Link to="/about" className="btn-primary inline-flex items-center gap-2">
                 <span>Learn More About Us</span>
                 <FiArrowRight size={15} />
@@ -281,17 +281,17 @@ export default function Home() {
             <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
               <img 
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
-                alt="Craftbit Tech BD Engineering Team" 
+                alt="CraftBit Tech BD Engineering Team" 
                 className="w-full h-56 object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end p-4">
-                <div className="flex items-center justify-between w-full">
-                  <div>
-                    <span className="text-xs font-bold text-sky-400 uppercase tracking-wider block">Elite Engineering Culture</span>
-                    <span className="text-sm font-semibold text-white">Dhaka R&D Center & Cloud Lab</span>
+              <div className="absolute inset-0 bg-linear-to-t from-slate-950/95 via-slate-950/50 to-transparent flex items-end p-3 sm:p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 w-full">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10px] sm:text-xs font-bold text-sky-400 uppercase tracking-wider block">Elite Engineering Culture</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white block truncate sm:overflow-visible">Dhaka R&D Center & Cloud Lab</span>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 shrink-0 whitespace-nowrap">
                     Active Sprint 42
                   </span>
                 </div>

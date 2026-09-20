@@ -7,8 +7,8 @@ export default function ContactPage() {
   return (
     <div className="page-wrapper">
       <Helmet>
-        <title>Contact Us & Request a Quote | Craftbit Tech BD LTD</title>
-        <meta name="description" content="Reach out to Craftbit Tech BD Ltd in Banani, Dhaka. Request a technical quote or schedule an architectural consultation." />
+        <title>Contact Us & Request a Quote | CraftBit Tech BD LTD</title>
+        <meta name="description" content="Reach out to CraftBit Tech BD LTD in Gopibagh, Dhaka. Request a technical quote or schedule an architectural consultation." />
       </Helmet>
 
       <section className="section">
@@ -32,7 +32,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="info-card-title">Corporate Headquarters</h4>
-                  <p className="info-card-desc">House 12, Road 5, Block B, Banani Commercial Area, Dhaka 1213, Bangladesh</p>
+                  <p className="info-card-desc">House 15-A/A1, Road 2, Gopibagh, Dhaka 1213, Bangladesh</p>
                 </div>
               </div>
 
@@ -43,7 +43,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="info-card-title">Direct Technical Inquiries</h4>
                   <a href="mailto:contact@craftbittechbd.com" className="info-card-desc hover:text-sky-400 transition-colors">
-                    contact@craftbittechbd.com
+                  craftbittechbd@gmail.com
                   </a>
                   <p className="text-xs text-sky-400 font-semibold mt-1">Avg response time: &lt; 2 hours</p>
                 </div>
@@ -55,8 +55,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="info-card-title">Phone / WhatsApp Hotline</h4>
-                  <a href="tel:+8801700000000" className="info-card-desc hover:text-sky-400 transition-colors">
-                    +880 1700-000000
+                  <a href="tel:+8801774381687" className="info-card-desc hover:text-sky-400 transition-colors">
+                    +880 1774-381687
                   </a>
                   <p className="text-xs text-slate-400 mt-1">Direct developer connection available</p>
                 </div>
