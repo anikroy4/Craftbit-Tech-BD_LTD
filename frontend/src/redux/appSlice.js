@@ -5,7 +5,7 @@ const initialServices = [
     id: 'web-dev',
     title: 'Full-Stack Web Development',
     desc: 'Scalable, high-performance web applications built with modern architectures: MongoDB, Express, React 19, and Node.js.',
-    icon: '💻',
+    iconKey: 'web',
     category: 'Engineering',
     rating: 4.9,
     baseCost: 2500,
@@ -17,7 +17,7 @@ const initialServices = [
     id: 'mobile-dev',
     title: 'Cross-Platform Mobile Apps',
     desc: 'Fluid, 60fps iOS and Android applications with native device integrations and offline-first capabilities.',
-    icon: '📱',
+    iconKey: 'mobile',
     category: 'Mobile',
     rating: 4.8,
     baseCost: 3500,
@@ -29,7 +29,7 @@ const initialServices = [
     id: 'cloud-devops',
     title: 'Cloud Architecture & DevOps',
     desc: 'Robust, zero-downtime infrastructure provisioning on AWS, GCP, and Azure with Kubernetes clusters.',
-    icon: '☁️',
+    iconKey: 'cloud',
     category: 'Cloud',
     rating: 5.0,
     baseCost: 2000,
@@ -41,19 +41,19 @@ const initialServices = [
     id: 'ai-ml',
     title: 'AI Automation & Agents',
     desc: 'Custom LLM workflows, conversational AI copilots, and predictive machine learning models tailored to company data.',
-    icon: '🤖',
+    iconKey: 'ai',
     category: 'AI',
     rating: 4.9,
     baseCost: 4000,
     typicalDuration: '4 - 7 Weeks',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+    image: '/ai-agents-showcase.jpg',
     features: ['OpenAI & Claude API Tooling', 'RAG Knowledge Bases & Vector DBs', 'Custom Agentic Automation', 'Data Pipeline ETL Engineering']
   },
   {
     id: 'cybersecurity',
     title: 'Cybersecurity & Auditing',
     desc: 'Penetration testing, source code auditing, compliance certification prep, and hardened infrastructure.',
-    icon: '🛡️',
+    iconKey: 'security',
     category: 'Security',
     rating: 4.9,
     baseCost: 1800,
@@ -65,7 +65,7 @@ const initialServices = [
     id: 'ui-ux',
     title: 'UI/UX & Product Design',
     desc: 'Interactive Figma design systems, customer journey mapping, user research, and high-conversion prototypes.',
-    icon: '🎨',
+    iconKey: 'design',
     category: 'Design',
     rating: 4.8,
     baseCost: 1500,
@@ -82,7 +82,7 @@ const initialProjects = [
     category: 'Web',
     desc: 'Enterprise multivendor marketplace handling 100,000+ daily sessions with automated merchant settlements.',
     tech: ['React 19', 'Node.js', 'MongoDB', 'Stripe', 'Redis'],
-    icon: '🛍️',
+    iconKey: 'cart',
     image: 'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=800&q=80',
     client: 'Apex Retail BD',
     stats: '+340% Sales Velocity'
@@ -93,7 +93,7 @@ const initialProjects = [
     category: 'SaaS',
     desc: 'Real-time collaborative project management suite with Kanban boards, Gantt charts, and live team audio rooms.',
     tech: ['React', 'Express', 'Socket.io', 'PostgreSQL', 'Docker'],
-    icon: '📊',
+    iconKey: 'kanban',
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
     client: 'Nexa Global UK',
     stats: '50k+ Daily Active Users'
@@ -104,7 +104,7 @@ const initialProjects = [
     category: 'Mobile',
     desc: 'Patient care ecosystem with encrypted video consultation, digital prescriptions, and vital stats tracking.',
     tech: ['React Native', 'Node.js', 'WebRTC', 'AWS S3'],
-    icon: '🩺',
+    iconKey: 'health',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
     client: 'Dhaka Health Services',
     stats: '120k+ Consultations'
@@ -115,7 +115,7 @@ const initialProjects = [
     category: 'Web',
     desc: 'Interactive streaming education portal with live quizzes, AI grading assistance, and accredited diplomas.',
     tech: ['Next.js', 'MongoDB', 'AWS CloudFront', 'Tailwind'],
-    icon: '🎓',
+    iconKey: 'edu',
     image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80',
     client: 'EduLearn Academy',
     stats: '99.98% Uptime'
@@ -126,7 +126,7 @@ const initialProjects = [
     category: 'SaaS',
     desc: 'PCI-DSS certified multi-currency payment infrastructure routing transactions across South Asia and Europe.',
     tech: ['Node.js', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes'],
-    icon: '💳',
+    iconKey: 'fintech',
     image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
     client: 'PaySwift Financials',
     stats: '$12M+ Monthly Volume'
@@ -137,12 +137,20 @@ const initialProjects = [
     category: 'Mobile',
     desc: 'Ultra-fast food dispatch system featuring live sub-second GPS rider telemetry and dynamic route optimization.',
     tech: ['React Native', 'Express', 'Google Maps API', 'Firebase'],
-    icon: '🛵',
+    iconKey: 'delivery',
     image: 'https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=800&q=80',
     client: 'Express Eats BD',
     stats: '< 25min Avg Delivery'
   }
 ];
+
+const getInitialTheme = () => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('cb_theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+  }
+  return 'dark';
+};
 
 const appSlice = createSlice({
   name: 'app',
@@ -152,7 +160,7 @@ const appSlice = createSlice({
     services: initialServices,
     projects: initialProjects,
     quoteRequests: [],
-    themeMode: 'dark',
+    themeMode: getInitialTheme(),
   },
   reducers: {
     setPortfolioFilter(state, action) {

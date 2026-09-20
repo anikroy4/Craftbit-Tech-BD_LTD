@@ -32,7 +32,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="info-card-title">Corporate Headquarters</h4>
-                  <p className="info-card-desc">House 15-A/A1, Road 2, Gopibagh, Dhaka 1213, Bangladesh</p>
+                  <p className="info-card-desc">15-A/A1, Lane 2, Gopibagh, Dhaka-1203, Bangladesh</p>
                 </div>
               </div>
 
@@ -42,8 +42,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="info-card-title">Direct Technical Inquiries</h4>
-                  <a href="mailto:contact@craftbittechbd.com" className="info-card-desc hover:text-sky-400 transition-colors">
-                  craftbittechbd@gmail.com
+                  <a href="mailto:craftbittechbd@gmail.com" className="info-card-desc hover:text-sky-400 transition-colors">
+                    craftbittechbd@gmail.com
                   </a>
                   <p className="text-xs text-sky-400 font-semibold mt-1">Avg response time: &lt; 2 hours</p>
                 </div>
@@ -55,8 +55,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="info-card-title">Phone / WhatsApp Hotline</h4>
-                  <a href="tel:+8801774381687" className="info-card-desc hover:text-sky-400 transition-colors">
-                    +880 1774-381687
+                  <a href="tel:01774381687" className="info-card-desc hover:text-sky-400 transition-colors">
+                    01774381687
                   </a>
                   <p className="text-xs text-slate-400 mt-1">Direct developer connection available</p>
                 </div>

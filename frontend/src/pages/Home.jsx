@@ -1,28 +1,55 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
-import PortfolioCardGrid from '../components/PortfolioCardGrid';
-import ContactForm from '../components/ContactForm';
-import { 
-  FiArrowRight, FiCheckCircle, FiShield, FiZap, 
-  FiCode, FiUsers, FiAward, FiGlobe, FiCpu, 
-  FiPhone, FiMail, FiMapPin, FiClock, FiDollarSign 
-} from 'react-icons/fi';
-import { 
-  SiReact, SiNodedotjs, SiMongodb, 
-  SiDocker, SiTypescript, SiNextdotjs, SiPostgresql,
-  SiPython, SiFlutter, SiKubernetes, SiTailwindcss, SiRedis, SiGraphql
-} from 'react-icons/si';
-import { FaAws } from 'react-icons/fa6';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet-async";
+import PortfolioCardGrid from "../components/PortfolioCardGrid";
+import ContactForm from "../components/ContactForm";
+import { getServiceIcon } from "../components/IconHelper";
+import {
+  FiArrowRight,
+  FiCheckCircle,
+  FiShield,
+  FiZap,
+  FiCode,
+  FiUsers,
+  FiAward,
+  FiGlobe,
+  FiCpu,
+  FiPhone,
+  FiMail,
+  FiMapPin,
+  FiClock,
+  FiDollarSign,
+} from "react-icons/fi";
+import {
+  SiReact,
+  SiNodedotjs,
+  SiMongodb,
+  SiDocker,
+  SiTypescript,
+  SiNextdotjs,
+  SiPostgresql,
+  SiPython,
+  SiFlutter,
+  SiKubernetes,
+  SiTailwindcss,
+  SiRedis,
+  SiGraphql,
+} from "react-icons/si";
+import { FaAws } from "react-icons/fa6";
 
 export default function Home() {
   const services = useSelector((state) => state.app.services);
 
   return (
-    <div>
+    <div className="home-page">
       <Helmet>
-        <title>CraftBit Tech BD LTD | Enterprise Software & Cloud Engineering</title>
-        <meta name="description" content="Leading software development agency in Bangladesh specializing in Full-Stack Web Development, Mobile Apps, Cloud Infrastructure, and AI Automation." />
+        <title>
+          CraftBit Tech BD LTD | Enterprise Software & Cloud Engineering
+        </title>
+        <meta
+          name="description"
+          content="Leading software development agency in Bangladesh specializing in Full-Stack Web Development, Mobile Apps, Cloud Infrastructure, and AI Automation."
+        />
       </Helmet>
 
       {/* ── Hero Section ── */}
@@ -34,11 +61,14 @@ export default function Home() {
           </div>
 
           <h1 className="hero-title">
-            Architecting <span className="gradient-text">World-Class</span> Software & Cloud Systems
+            Architecting <span className="gradient-text">World-Class</span>{" "}
+            Software & Cloud Systems
           </h1>
 
           <p className="hero-desc">
-            CraftBit Tech BD LTD is a premier full-cycle software agency delivering high-velocity web platforms, mobile apps, and scalable cloud architectures for businesses globally.
+            CraftBit Tech BD LTD is a premier full-cycle software agency
+            delivering high-velocity web platforms, mobile apps, and scalable
+            cloud architectures for businesses globally.
           </p>
 
           <div className="hero-actions">
@@ -76,18 +106,21 @@ export default function Home() {
       {/* ── Core Technology Stack & Architecture Section ── */}
       <section className="tech-stack-section">
         <div className="container">
-          <div className="section-header" style={{ marginBottom: '2rem' }}>
+          <div className="section-header" style={{ marginBottom: "2rem" }}>
             <div className="badge flex items-center gap-1.5 mx-auto">
               <FiCode className="text-sky-400" size={13} />
               <span>Modern Engineering Ecosystem</span>
             </div>
-            <h2 className="section-title">Core <span className="gradient-text">Technology Stack</span></h2>
+            <h2 className="section-title">
+              Core <span className="gradient-text">Technology Stack</span>
+            </h2>
             <p className="section-subtitle">
-              Enterprise battle-tested frameworks, cloud infrastructure, and AI runtimes powering our mission-critical deliverables.
+              Enterprise battle-tested frameworks, cloud infrastructure, and AI
+              runtimes powering our mission-critical deliverables.
             </p>
           </div>
 
-          <div className="tech-slider-wrapper" style={{ marginTop: '0' }}>
+          <div className="tech-slider-wrapper" style={{ marginTop: "0" }}>
             <div className="flex items-center justify-between mb-4 px-2">
               <span className="text-xs uppercase font-extrabold tracking-widest text-sky-400 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
@@ -101,40 +134,107 @@ export default function Home() {
             <div className="tech-slider-mask overflow-x-auto no-scrollbar py-2 cursor-grab active:cursor-grabbing">
               <div className="tech-slider-track">
                 {[
-                  { name: 'React 19', icon: SiReact, color: 'text-sky-400' },
-                  { name: 'Next.js 15', icon: SiNextdotjs, color: 'text-white' },
-                  { name: 'TypeScript', icon: SiTypescript, color: 'text-blue-400' },
-                  { name: 'Node.js', icon: SiNodedotjs, color: 'text-emerald-400' },
-                  { name: 'Python / AI', icon: SiPython, color: 'text-yellow-400' },
-                  { name: 'Flutter', icon: SiFlutter, color: 'text-cyan-400' },
-                  { name: 'AWS Cloud', icon: FaAws, color: 'text-amber-400' },
-                  { name: 'Docker', icon: SiDocker, color: 'text-blue-400' },
-                  { name: 'Kubernetes', icon: SiKubernetes, color: 'text-indigo-400' },
-                  { name: 'PostgreSQL', icon: SiPostgresql, color: 'text-sky-500' },
-                  { name: 'MongoDB', icon: SiMongodb, color: 'text-emerald-500' },
-                  { name: 'Redis', icon: SiRedis, color: 'text-red-400' },
-                  { name: 'GraphQL', icon: SiGraphql, color: 'text-pink-400' },
-                  { name: 'Tailwind CSS', icon: SiTailwindcss, color: 'text-teal-400' },
+                  { name: "React 19", icon: SiReact, color: "text-sky-400" },
+                  {
+                    name: "Next.js 15",
+                    icon: SiNextdotjs,
+                    color: "text-white",
+                  },
+                  {
+                    name: "TypeScript",
+                    icon: SiTypescript,
+                    color: "text-blue-400",
+                  },
+                  {
+                    name: "Node.js",
+                    icon: SiNodedotjs,
+                    color: "text-emerald-400",
+                  },
+                  {
+                    name: "Python / AI",
+                    icon: SiPython,
+                    color: "text-yellow-400",
+                  },
+                  { name: "Flutter", icon: SiFlutter, color: "text-cyan-400" },
+                  { name: "AWS Cloud", icon: FaAws, color: "text-amber-400" },
+                  { name: "Docker", icon: SiDocker, color: "text-blue-400" },
+                  {
+                    name: "Kubernetes",
+                    icon: SiKubernetes,
+                    color: "text-indigo-400",
+                  },
+                  {
+                    name: "PostgreSQL",
+                    icon: SiPostgresql,
+                    color: "text-sky-500",
+                  },
+                  {
+                    name: "MongoDB",
+                    icon: SiMongodb,
+                    color: "text-emerald-500",
+                  },
+                  { name: "Redis", icon: SiRedis, color: "text-red-400" },
+                  { name: "GraphQL", icon: SiGraphql, color: "text-pink-400" },
+                  {
+                    name: "Tailwind CSS",
+                    icon: SiTailwindcss,
+                    color: "text-teal-400",
+                  },
                   // Duplicate for seamless infinite slide loop
-                  { name: 'React 19', icon: SiReact, color: 'text-sky-400' },
-                  { name: 'Next.js 15', icon: SiNextdotjs, color: 'text-white' },
-                  { name: 'TypeScript', icon: SiTypescript, color: 'text-blue-400' },
-                  { name: 'Node.js', icon: SiNodedotjs, color: 'text-emerald-400' },
-                  { name: 'Python / AI', icon: SiPython, color: 'text-yellow-400' },
-                  { name: 'Flutter', icon: SiFlutter, color: 'text-cyan-400' },
-                  { name: 'AWS Cloud', icon: FaAws, color: 'text-amber-400' },
-                  { name: 'Docker', icon: SiDocker, color: 'text-blue-400' },
-                  { name: 'Kubernetes', icon: SiKubernetes, color: 'text-indigo-400' },
-                  { name: 'PostgreSQL', icon: SiPostgresql, color: 'text-sky-500' },
-                  { name: 'MongoDB', icon: SiMongodb, color: 'text-emerald-500' },
-                  { name: 'Redis', icon: SiRedis, color: 'text-red-400' },
-                  { name: 'GraphQL', icon: SiGraphql, color: 'text-pink-400' },
-                  { name: 'Tailwind CSS', icon: SiTailwindcss, color: 'text-teal-400' }
+                  { name: "React 19", icon: SiReact, color: "text-sky-400" },
+                  {
+                    name: "Next.js 15",
+                    icon: SiNextdotjs,
+                    color: "text-white",
+                  },
+                  {
+                    name: "TypeScript",
+                    icon: SiTypescript,
+                    color: "text-blue-400",
+                  },
+                  {
+                    name: "Node.js",
+                    icon: SiNodedotjs,
+                    color: "text-emerald-400",
+                  },
+                  {
+                    name: "Python / AI",
+                    icon: SiPython,
+                    color: "text-yellow-400",
+                  },
+                  { name: "Flutter", icon: SiFlutter, color: "text-cyan-400" },
+                  { name: "AWS Cloud", icon: FaAws, color: "text-amber-400" },
+                  { name: "Docker", icon: SiDocker, color: "text-blue-400" },
+                  {
+                    name: "Kubernetes",
+                    icon: SiKubernetes,
+                    color: "text-indigo-400",
+                  },
+                  {
+                    name: "PostgreSQL",
+                    icon: SiPostgresql,
+                    color: "text-sky-500",
+                  },
+                  {
+                    name: "MongoDB",
+                    icon: SiMongodb,
+                    color: "text-emerald-500",
+                  },
+                  { name: "Redis", icon: SiRedis, color: "text-red-400" },
+                  { name: "GraphQL", icon: SiGraphql, color: "text-pink-400" },
+                  {
+                    name: "Tailwind CSS",
+                    icon: SiTailwindcss,
+                    color: "text-teal-400",
+                  },
                 ].map((tech, idx) => {
                   const Icon = tech.icon;
                   return (
                     <div key={idx} className="tech-slide-badge group">
-                      <Icon className={`${tech.color} shrink-0 group-hover:scale-110 transition-transform`} size={18} />
+                      <Icon
+                        className={`${tech.color} shrink-0 group-hover:scale-110 transition-transform`}
+                        size={18}
+                      />
                       <span>{tech.name}</span>
                     </div>
                   );
@@ -153,9 +253,12 @@ export default function Home() {
               <FiCpu className="text-sky-400" size={13} />
               <span>Our Capabilities</span>
             </div>
-            <h2 className="section-title">Solutions Built For <span className="gradient-text">Growth</span></h2>
+            <h2 className="section-title">
+              Solutions Built For <span className="gradient-text">Growth</span>
+            </h2>
             <p className="section-subtitle">
-              From MVP design to enterprise cloud systems, we build software engineered for speed, durability, and business return.
+              From MVP design to enterprise cloud systems, we build software
+              engineered for speed, durability, and business return.
             </p>
           </div>
 
@@ -164,11 +267,11 @@ export default function Home() {
               <div key={item.id} className="service-card group">
                 {item.image && (
                   <div className="service-card-image-box">
-                    <img 
-                      src={item.image} 
-                      alt={item.title} 
+                    <img
+                      src={item.image}
+                      alt={item.title}
                       className="service-card-img"
-                      loading="lazy" 
+                      loading="lazy"
                     />
                     <div className="service-card-img-overlay"></div>
                     <span className="service-price-pill">
@@ -178,7 +281,9 @@ export default function Home() {
                 )}
 
                 <div className="flex justify-between items-start mb-3 mt-2">
-                  <div className="service-icon">{item.icon}</div>
+                  <div className="service-icon">
+                    {getServiceIcon(item.iconKey, { size: 22 })}
+                  </div>
                   <span className="text-xs font-bold text-sky-400 bg-sky-400/10 border border-sky-400/20 px-2.5 py-1 rounded-full">
                     {item.category}
                   </span>
@@ -192,7 +297,7 @@ export default function Home() {
                     <span className="service-meta-label">Est. Timeline</span>
                     <span className="service-meta-value service-meta-duration">
                       <FiClock size={13} className="shrink-0" />
-                      <span>{item.typicalDuration || '3 - 6 Weeks'}</span>
+                      <span>{item.typicalDuration || "3 - 6 Weeks"}</span>
                     </span>
                   </div>
                   <div className="service-meta-item">
@@ -207,7 +312,10 @@ export default function Home() {
                 <ul className="service-features">
                   {item.features.map((feat, fIdx) => (
                     <li key={fIdx} className="flex items-center gap-2">
-                      <FiCheckCircle className="text-sky-400 shrink-0" size={14} />
+                      <FiCheckCircle
+                        className="text-sky-400 shrink-0"
+                        size={14}
+                      />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -216,8 +324,11 @@ export default function Home() {
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <Link to="/services" className="btn-secondary inline-flex items-center gap-2">
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <Link
+              to="/services"
+              className="btn-secondary inline-flex items-center gap-2"
+            >
               <span>View Detailed Service Breakdown</span>
               <FiArrowRight size={15} />
             </Link>
@@ -233,16 +344,22 @@ export default function Home() {
               <FiGlobe className="text-sky-400" size={13} />
               <span>Featured Work</span>
             </div>
-            <h2 className="section-title">Engineered For <span className="gradient-text">Impact</span></h2>
+            <h2 className="section-title">
+              Engineered For <span className="gradient-text">Impact</span>
+            </h2>
             <p className="section-subtitle">
-              Interactive filterable showcase of our recent production web applications, SaaS platforms, and mobile apps.
+              Interactive filterable showcase of our recent production web
+              applications, SaaS platforms, and mobile apps.
             </p>
           </div>
 
           <PortfolioCardGrid showFilter={true} limit={6} />
 
-          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
-            <Link to="/portfolio" className="btn-primary inline-flex items-center gap-2">
+          <div style={{ textAlign: "center", marginTop: "3.5rem" }}>
+            <Link
+              to="/portfolio"
+              className="btn-primary inline-flex items-center gap-2"
+            >
               <span>View Full Portfolio Archive</span>
               <FiArrowRight size={15} />
             </Link>
@@ -258,19 +375,33 @@ export default function Home() {
               <FiAward className="text-sky-400" size={13} />
               <span>Why Choose Us</span>
             </div>
-            <h2>Pioneering Software Engineering in <span className="gradient-text">Bangladesh</span></h2>
+            <h2>
+              Pioneering Software Engineering in{" "}
+              <span className="gradient-text">Bangladesh</span>
+            </h2>
             <p>
-              Founded with the vision to deliver Silicon-Valley caliber engineering from Dhaka to businesses worldwide, CraftBit Tech BD Ltd brings together elite software engineers, UI/UX researchers, and DevOps architects.
+              Founded with the vision to deliver Silicon-Valley caliber
+              engineering from Dhaka to businesses worldwide, CraftBit Tech BD
+              Ltd brings together elite software engineers, UI/UX researchers,
+              and DevOps architects.
             </p>
             <p>
-              We don't just write code; we partner with your business from day zero to architect durable software that scales effortlessly with your user growth.
+              We don't just write code; we partner with your business from day
+              zero to architect durable software that scales effortlessly with
+              your user growth.
             </p>
             <div className="about-actions">
-              <Link to="/about" className="btn-primary inline-flex items-center gap-2">
+              <Link
+                to="/about"
+                className="btn-primary inline-flex items-center gap-2"
+              >
                 <span>Learn More About Us</span>
                 <FiArrowRight size={15} />
               </Link>
-              <Link to="/services" className="btn-secondary inline-flex items-center gap-2">
+              <Link
+                to="/services"
+                className="btn-secondary inline-flex items-center gap-2"
+              >
                 <span>Explore All Services</span>
                 <FiArrowRight size={15} />
               </Link>
@@ -279,17 +410,21 @@ export default function Home() {
 
           <div className="about-visual-column">
             <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
-                alt="CraftBit Tech BD Engineering Team" 
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                alt="CraftBit Tech BD Engineering Team"
                 className="w-full h-56 object-cover"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-linear-to-t from-slate-950/95 via-slate-950/50 to-transparent flex items-end p-3 sm:p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2 w-full">
                   <div className="min-w-0 flex-1">
-                    <span className="text-[10px] sm:text-xs font-bold text-sky-400 uppercase tracking-wider block">Elite Engineering Culture</span>
-                    <span className="text-xs sm:text-sm font-semibold text-white block truncate sm:overflow-visible">Dhaka R&D Center & Cloud Lab</span>
+                    <span className="text-[10px] sm:text-xs font-bold text-sky-400 uppercase tracking-wider block">
+                      Elite Engineering Culture
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-white block truncate sm:overflow-visible">
+                      Dhaka R&D Center & Cloud Lab
+                    </span>
                   </div>
                   <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 shrink-0 whitespace-nowrap">
                     Active Sprint 42
@@ -300,32 +435,44 @@ export default function Home() {
 
             <div className="values-grid">
               <div className="value-box">
-                <div className="flex items-center gap-2 mb-2">
-                  <FiZap className="text-sky-400" size={18} />
-                  <h4 className="text-base font-bold text-white">High Velocity</h4>
+                <div className="value-box-icon-wrap">
+                  <FiZap size={18} />
                 </div>
-                <p>Agile sprints designed to launch your MVP weeks ahead of schedule.</p>
+                <h4>High Velocity</h4>
+                <p>
+                  Agile sprints designed to launch your MVP weeks ahead of
+                  schedule.
+                </p>
               </div>
               <div className="value-box">
-                <div className="flex items-center gap-2 mb-2">
-                  <FiCode className="text-sky-400" size={18} />
-                  <h4 className="text-base font-bold text-white">Clean Code</h4>
+                <div className="value-box-icon-wrap">
+                  <FiCode size={18} />
                 </div>
-                <p>Strictly typed, modular, documented architectures that make scaling effortless.</p>
+                <h4>Clean Code</h4>
+                <p>
+                  Strictly typed, modular, documented architectures that make
+                  scaling effortless.
+                </p>
               </div>
               <div className="value-box">
-                <div className="flex items-center gap-2 mb-2">
-                  <FiShield className="text-sky-400" size={18} />
-                  <h4 className="text-base font-bold text-white">Security First</h4>
+                <div className="value-box-icon-wrap">
+                  <FiShield size={18} />
                 </div>
-                <p>Top-tier data encryption and compliance safeguards built in from line one.</p>
+                <h4>Security First</h4>
+                <p>
+                  Top-tier data encryption and compliance safeguards built in
+                  from line one.
+                </p>
               </div>
               <div className="value-box">
-                <div className="flex items-center gap-2 mb-2">
-                  <FiUsers className="text-sky-400" size={18} />
-                  <h4 className="text-base font-bold text-white">Direct Comms</h4>
+                <div className="value-box-icon-wrap">
+                  <FiUsers size={18} />
                 </div>
-                <p>Real-time transparency with dedicated tech leads and daily Slack updates.</p>
+                <h4>Direct Comms</h4>
+                <p>
+                  Real-time transparency with dedicated tech leads and daily
+                  Slack updates.
+                </p>
               </div>
             </div>
           </div>
@@ -340,9 +487,13 @@ export default function Home() {
               <FiMail className="text-sky-400" size={13} />
               <span>Get In Touch</span>
             </div>
-            <h2 className="section-title">Let's Build Something <span className="gradient-text">Remarkable</span></h2>
+            <h2 className="section-title">
+              Let's Build Something{" "}
+              <span className="gradient-text">Remarkable</span>
+            </h2>
             <p className="section-subtitle">
-              Ready to turn your vision into a scalable reality? Get in touch with our tech leads today.
+              Ready to turn your vision into a scalable reality? Get in touch
+              with our tech leads today.
             </p>
           </div>
 
@@ -353,8 +504,10 @@ export default function Home() {
                   <FiMapPin size={20} />
                 </div>
                 <div>
-                  <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '2px' }}>Dhaka Headquarters</h4>
-                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>House 12, Road 5, Banani Commercial Area, Dhaka 1213, Bangladesh</p>
+                  <h4 className="info-card-title">Dhaka Headquarters</h4>
+                  <p className="info-card-desc">
+                    15-A/A1, Lane 2, Gopibagh, Dhaka-1203, Bangladesh
+                  </p>
                 </div>
               </div>
 
@@ -363,8 +516,13 @@ export default function Home() {
                   <FiMail size={20} />
                 </div>
                 <div>
-                  <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '2px' }}>Direct Email</h4>
-                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>contact@craftbittechbd.com</p>
+                  <h4 className="info-card-title">Direct Email</h4>
+                  <a
+                    href="mailto:craftbittechbd@gmail.com"
+                    className="info-card-desc hover:text-sky-400 transition-colors"
+                  >
+                    craftbittechbd@gmail.com
+                  </a>
                 </div>
               </div>
 
@@ -373,8 +531,13 @@ export default function Home() {
                   <FiPhone size={20} />
                 </div>
                 <div>
-                  <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '2px' }}>Direct Call / WhatsApp</h4>
-                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>+880 1700-000000</p>
+                  <h4 className="info-card-title">Direct Call / WhatsApp</h4>
+                  <a
+                    href="tel:01774381687"
+                    className="info-card-desc hover:text-sky-400 transition-colors"
+                  >
+                    01774381687
+                  </a>
                 </div>
               </div>
 
@@ -383,12 +546,13 @@ export default function Home() {
                   <FiClock size={20} />
                 </div>
                 <div>
-                  <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '2px' }}>Operating Hours</h4>
-                  <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Sunday – Thursday: 9:00 AM – 7:00 PM BST</p>
+                  <h4 className="info-card-title">Operating Hours</h4>
+                  <p className="info-card-desc">
+                    Sunday – Thursday: 9:00 AM – 7:00 PM BST
+                  </p>
                 </div>
               </div>
             </div>
-
             <ContactForm />
           </div>
         </div>

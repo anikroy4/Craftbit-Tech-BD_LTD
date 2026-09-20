@@ -281,19 +281,19 @@ export const contactInfo = [
   {
     icon: 'MapPin',
     label: 'Office',
-    value: 'Dhaka, Bangladesh',
-    sub: 'House 12, Road 5, Banani, Dhaka 1213',
+    value: 'Gopibagh, Dhaka',
+    sub: '15-A/A1, Lane 2, Gopibagh, Dhaka-1203',
   },
   {
     icon: 'Mail',
     label: 'Email',
-    value: 'hello@craftbittechbd.com',
+    value: 'craftbittechbd@gmail.com',
     sub: 'We reply within 2 hours',
   },
   {
     icon: 'Phone',
     label: 'Phone',
-    value: '+880 1700-000000',
+    value: '01774381687',
     sub: 'Sun – Thu, 9am – 7pm BST',
   },
   {

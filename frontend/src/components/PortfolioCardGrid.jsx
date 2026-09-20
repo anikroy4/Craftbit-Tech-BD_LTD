@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setPortfolioFilter } from '../redux/appSlice';
+import { getProjectIcon } from './IconHelper';
 import { 
   FiTrendingUp, FiGlobe, FiSmartphone, FiCloud, FiGrid, FiCode 
 } from 'react-icons/fi';
@@ -84,13 +85,17 @@ export default function PortfolioCardGrid({ showFilter = true, limit = null }) {
                   />
                   <div className="project-thumb-overlay"></div>
                   <div className="project-thumb-inner relative z-10">
-                    <span className="text-3xl filter drop-shadow-lg">{proj.icon}</span>
+                    <div className="project-thumb-icon">
+                      {getProjectIcon(proj.iconKey, { size: 22 })}
+                    </div>
                     <span className="project-client-badge">{proj.client}</span>
                   </div>
                 </>
               ) : (
                 <div className="project-thumb-inner">
-                  <span className="text-4xl filter drop-shadow-md">{proj.icon}</span>
+                  <div className="project-thumb-icon">
+                    {getProjectIcon(proj.iconKey, { size: 24 })}
+                  </div>
                   <span className="project-client-badge">{proj.client}</span>
                 </div>
               )}
