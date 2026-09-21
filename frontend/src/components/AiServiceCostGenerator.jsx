@@ -2,13 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FiCpu, 
-  FiSend, 
-  FiCheckCircle, 
   FiArrowRight, 
   FiClock, 
-  FiDollarSign, 
-  FiLayers, 
-  FiShield, 
   FiRefreshCw, 
   FiCopy, 
   FiCheck,

@@ -30,6 +30,7 @@ export default function ContactForm() {
     const s = searchParams.get('service');
     const b = searchParams.get('budget');
     if (s || b) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData(prev => ({
         ...prev,
         service: s || prev.service,

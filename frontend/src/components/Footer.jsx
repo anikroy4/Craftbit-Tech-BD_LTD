@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { 
   FiGithub, FiLinkedin, FiFacebook, FiTwitter, FiMail, 
-  FiPhone, FiMapPin, FiArrowUp, FiShield, FiHeart, FiLayers
+  FiPhone, FiMapPin, FiArrowUp, FiShield, FiHeart
 } from 'react-icons/fi';
 
 export default function Footer() {
@@ -76,17 +76,19 @@ export default function Footer() {
             <div className="footer-contact-items">
               <div className="flex items-start gap-3 text-sm text-slate-300">
                 <FiMapPin className="text-sky-400 mt-1 shrink-0" size={16} />
-                <span>House 12, Road 5, Banani Commercial Area, Dhaka 1213, Bangladesh</span>
+                <span>15-A/A1, Lane 2, Gopibagh, Dhaka-1203, Bangladesh</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-300">
                 <FiMail className="text-sky-400 shrink-0" size={16} />
-                <a href="mailto:contact@craftbittechbd.com" className="hover:text-white transition-colors">
-                  contact@craftbittechbd.com
+                <a href="mailto:craftbittechbd@gmail.com" className="hover:text-white transition-colors">
+                  craftbittechbd@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-300">
                 <FiPhone className="text-sky-400 shrink-0" size={16} />
-                <span>+880 1700-000000</span>
+                <a href="tel:01774381687" className="hover:text-white transition-colors">
+                  01774381687
+                </a>
               </div>
               <div className="flex items-center gap-2 text-xs text-emerald-400 pt-1 font-semibold">
                 <FiShield size={14} />

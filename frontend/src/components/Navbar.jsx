@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { FiLayers, FiMenu, FiX, FiArrowRight } from 'react-icons/fi';
+import { useSelector, useDispatch } from 'react-redux';
+import { FiMenu, FiX, FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
+import { toggleThemeMode } from '../redux/appSlice';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const dispatch = useDispatch();
+  const themeMode = useSelector((state) => state.app.themeMode);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,7 +99,26 @@ export default function Navbar() {
                 Contact
               </NavLink>
             </li>
-            <li className="mobile-cta">
+            <li className="mobile-cta flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => dispatch(toggleThemeMode())}
+                className="btn-secondary flex items-center justify-center gap-2 w-full"
+                style={{ padding: '0.75rem 1.4rem', fontSize: '0.9rem' }}
+                aria-label="Toggle dark/light theme"
+              >
+                {themeMode === 'light' ? (
+                  <>
+                    <FiMoon size={16} className="text-indigo-400" />
+                    <span>Switch to Dark Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <FiSun size={16} className="text-amber-400" />
+                    <span>Switch to Light Mode</span>
+                  </>
+                )}
+              </button>
               <Link 
                 to="/contact" 
                 onClick={() => setMobileMenuOpen(false)}
@@ -111,13 +134,20 @@ export default function Navbar() {
 
         {/* Desktop Action & Mobile Hamburger */}
         <div className="nav-actions">
-          {/* <div className="status-pill hidden md:flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-xs font-semibold text-slate-300">Accepting Q3/Q4 Projects</span>
-          </div> */}
+          {/* Theme Mode Toggle Button */}
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={() => dispatch(toggleThemeMode())}
+            title={themeMode === 'light' ? "Switch to Dark Mode" : "Switch to Light Mode"}
+            aria-label={themeMode === 'light' ? "Switch to Dark Mode" : "Switch to Light Mode"}
+          >
+            {themeMode === 'light' ? (
+              <FiMoon size={18} className="text-indigo-600 transition-transform hover:-rotate-12" />
+            ) : (
+              <FiSun size={18} className="text-amber-300 transition-transform hover:rotate-45" />
+            )}
+          </button>
 
           <Link 
             to="/contact" 

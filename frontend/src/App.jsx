@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,6 +18,19 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const themeMode = useSelector((state) => state.app.themeMode);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (themeMode === 'light') {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    } else {
+      root.classList.remove('light');
+      root.classList.add('dark');
+    }
+    localStorage.setItem('cb_theme', themeMode);
+  }, [themeMode]);
   return (
     <BrowserRouter>
       <ScrollToTop />

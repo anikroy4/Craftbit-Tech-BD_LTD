@@ -21,6 +21,8 @@ export const serviceIconMap = {
   ai: FiCpu,
   security: FiShield,
   design: FiLayout,
+  cart: FiShoppingCart,
+  ecommerce: FiShoppingCart,
 };
 
 export const projectIconMap = {

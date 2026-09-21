@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FiCheckCircle, FiArrowRight, FiCpu, FiCode, FiLayers, FiShield, FiTrendingUp, FiDollarSign, FiClock } from 'react-icons/fi';
+import { FiCheckCircle, FiArrowRight, FiCpu, FiTrendingUp, FiDollarSign, FiClock } from 'react-icons/fi';
+import { getServiceIcon } from '../components/IconHelper';
 
 export default function ServicesPage() {
   const services = useSelector((state) => state.app.services);
@@ -46,7 +47,7 @@ export default function ServicesPage() {
                 )}
 
                 <div className="flex justify-between items-start mb-4 mt-2">
-                  <div className="service-icon">{item.icon}</div>
+                  <div className="service-icon">{getServiceIcon(item.iconKey, { size: 22 })}</div>
                   <span className="badge" style={{ marginBottom: 0 }}>{item.category}</span>
                 </div>
 
@@ -93,69 +94,6 @@ export default function ServicesPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* ── AI Automation & Agents Showcase Spotlight ── */}
-          <div className="mt-16 mb-20 p-8 sm:p-10 rounded-3xl bg-linear-to-br from-blue-950/40 via-slate-900/60 to-purple-950/30 border border-sky-500/20 shadow-2xl relative overflow-hidden">
-            <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-              <div className="lg:col-span-7">
-                <div className="badge flex items-center gap-1.5 w-fit mb-4">
-                  <FiCpu className="text-sky-400" size={14} />
-                  <span>Next-Gen Agentic Capability</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">
-                  AI Automation & <span className="gradient-text">Autonomous Agents</span>
-                </h2>
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
-                  Transform routine enterprise bottlenecks into high-speed autonomous pipelines. We construct custom agentic architectures, multi-agent swarms, RAG knowledge systems, and enterprise fine-tuned LLM copilots.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200">
-                    <FiCheckCircle className="text-sky-400 shrink-0" size={15} />
-                    <span>Autonomous Tool Calling & Action Exec</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200">
-                    <FiCheckCircle className="text-sky-400 shrink-0" size={15} />
-                    <span>Vector DBs & Hybrid Enterprise RAG</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200">
-                    <FiCheckCircle className="text-sky-400 shrink-0" size={15} />
-                    <span>Multi-Agent Swarm Orchestration</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200">
-                    <FiCheckCircle className="text-sky-400 shrink-0" size={15} />
-                    <span>Enterprise Data Privacy & Local Guardrails</span>
-                  </div>
-                </div>
-                <Link to="/contact?service=AI%20Automation%20%26%20Agents" className="btn-primary inline-flex items-center gap-2 text-sm">
-                  <span>Build an AI Agent With Us</span>
-                  <FiArrowRight size={15} />
-                </Link>
-              </div>
-
-              <div className="lg:col-span-5">
-                <div className="relative rounded-2xl overflow-hidden border border-sky-400/30 shadow-2xl group">
-                  <img 
-                    src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80" 
-                    alt="AI Automation & Autonomous Agents Architecture" 
-                    className="w-full h-72 sm:h-80 object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90 contrast-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 flex items-center justify-between">
-                    <div>
-                      <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block">Neural Engine</span>
-                      <span className="text-xs font-semibold text-white">Multi-Agent Swarm v2.4</span>
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                      Active Inference
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Development Methodology */}

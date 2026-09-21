@@ -72,6 +72,18 @@ const initialServices = [
     typicalDuration: '2 - 4 Weeks',
     image: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80',
     features: ['High-Fidelity Figma Systems', 'Usability Testing & Heatmaps', 'Interactive Prototyping', 'Design-to-Code Precision']
+  },
+  {
+    id: 'ecommerce-platforms',
+    title: 'E-Commerce & Digital Commerce',
+    desc: 'High-conversion multivendor marketplaces, custom storefronts, payment gateways, and automated cart checkout pipelines.',
+    iconKey: 'cart',
+    category: 'Commerce',
+    rating: 4.9,
+    baseCost: 3000,
+    typicalDuration: '4 - 7 Weeks',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80',
+    features: ['Custom Checkout & Cart Engines', 'Stripe, bKash & Nagad Gateways', 'Real-Time Inventory Management', 'Automated Order Fulfillment']
   }
 ];
 
