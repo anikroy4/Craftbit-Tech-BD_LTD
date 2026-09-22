@@ -459,6 +459,7 @@ export default function AboutPage() {
           <div className="about-cta-banner">
             <div className="about-cta-content">
               <h3 className="about-cta-heading">Ready To Build With Silicon Valley Rigor?</h3>
+              <h3 className="about-cta-heading">Ready To Build With CraftBit Tech BD?</h3>
               <p className="about-cta-sub">
                 Book a confidential 30-minute discovery session with our tech leads and get a free architectural roadmap within 48 hours.
               </p>

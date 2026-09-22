@@ -15,8 +15,8 @@ export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const initialService = searchParams.get('service') || 'Full-Stack Web Development';
-  const initialBudget = searchParams.get('budget') ? `Custom Estimate: ${searchParams.get('budget')}` : '$5,000 - $15,000';
+  const initialService = searchParams.get('service') || '';
+  const initialBudget = searchParams.get('budget') || '';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -33,8 +33,8 @@ export default function ContactForm() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData(prev => ({
         ...prev,
-        service: s || prev.service,
-        budget: b ? `Custom Estimate: ${b}` : prev.budget
+        service: s !== null ? s : prev.service,
+        budget: b !== null ? b : prev.budget
       }));
     }
   }, [searchParams]);
@@ -66,10 +66,10 @@ export default function ContactForm() {
         </div>
         <h3 className="text-xl font-bold text-white mb-2">🎉 Project Brief Received!</h3>
         <p className="text-slate-300 text-sm leading-relaxed mb-4">
-          Thank you, <strong className="text-white">{formData.name}</strong>. Our lead software architect has received your specifications for <em>{formData.service}</em> and will email your initial technical estimate within 24 hours.
+          Thank you, <strong className="text-white">{formData.name}</strong>. Our lead software architect has received your specifications{formData.service ? <> for <em>{formData.service}</em></> : ''} and will email your initial technical estimate within 24 hours.
         </p>
         <button 
-          onClick={() => { setSubmitted(false); setFormData({ name: '', email: '', service: 'Full-Stack Web Development', budget: '$5,000 - $15,000', message: '' }); }}
+          onClick={() => { setSubmitted(false); setFormData({ name: '', email: '', service: '', budget: '', message: '' }); }}
           className="btn-secondary"
         >
           Submit Another Request
@@ -81,8 +81,8 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="contact-form">
       <div className="form-group">
-        <label className="flex items-center gap-1.5">
-          <FiUser size={14} className="text-sky-400" />
+        <label className="flex items-center gap-2">
+          <FiUser size={15} className="text-sky-400 shrink-0" />
           <span>Full Name *</span>
         </label>
         <input 
@@ -96,8 +96,8 @@ export default function ContactForm() {
       </div>
 
       <div className="form-group">
-        <label className="flex items-center gap-1.5">
-          <FiMail size={14} className="text-sky-400" />
+        <label className="flex items-center gap-2">
+          <FiMail size={15} className="text-sky-400 shrink-0" />
           <span>Corporate / Work Email *</span>
         </label>
         <input 
@@ -112,48 +112,37 @@ export default function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="form-group">
-          <label className="flex items-center gap-1.5">
-            <FiLayers size={14} className="text-sky-400" />
+          <label className="flex items-center gap-2">
+            <FiLayers size={15} className="text-sky-400 shrink-0" />
             <span>Primary Service</span>
           </label>
-          <select 
+          <input 
+            type="text"
             className="form-control"
+            placeholder="e.g. Full-Stack Web Development, Mobile App..."
             value={formData.service}
             onChange={(e) => setFormData({...formData, service: e.target.value})}
-          >
-            <option value="Full-Stack Web Development">Full-Stack Web App</option>
-            <option value="Mobile App Development">Mobile App (iOS/Android)</option>
-            <option value="Cloud Architecture & DevOps">Cloud & DevOps</option>
-            <option value="AI Automation & Agents">AI & Machine Learning</option>
-            <option value="Cybersecurity & Auditing">Security Auditing</option>
-            <option value="UI/UX & Product Design">UI/UX Design</option>
-          </select>
+          />
         </div>
 
         <div className="form-group">
-          <label className="flex items-center gap-1.5">
-            <FiDollarSign size={14} className="text-sky-400" />
+          <label className="flex items-center gap-2">
+            <FiDollarSign size={15} className="text-sky-400 shrink-0" />
             <span>Estimated Budget</span>
           </label>
-          <select 
+          <input 
+            type="text"
             className="form-control"
+            placeholder="e.g. $5,000 - $15,000 USD"
             value={formData.budget}
             onChange={(e) => setFormData({...formData, budget: e.target.value})}
-          >
-            {formData.budget && !['< $5,000', '$5,000 - $15,000', '$15,000 - $50,000', '$50,000+'].includes(formData.budget) && (
-              <option value={formData.budget}>{formData.budget}</option>
-            )}
-            <option value="< $5,000">&lt; $5,000</option>
-            <option value="$5,000 - $15,000">$5,000 - $15,000</option>
-            <option value="$15,000 - $50,000">$15,000 - $50,000</option>
-            <option value="$50,000+">$50,000+</option>
-          </select>
+          />
         </div>
       </div>
 
       <div className="form-group">
-        <label className="flex items-center gap-1.5">
-          <FiMessageSquare size={14} className="text-sky-400" />
+        <label className="flex items-center gap-2">
+          <FiMessageSquare size={15} className="text-sky-400 shrink-0" />
           <span>Project Scope & Requirements *</span>
         </label>
         <textarea 
@@ -176,19 +165,19 @@ export default function ContactForm() {
         ) : (
           <>
             <span>Submit Project Brief</span>
-            <FiSend size={15} />
+            <FiSend size={15} className="shrink-0" />
           </>
         )}
       </button>
 
-      <div className="flex items-center justify-center gap-4 text-xs text-slate-400 pt-1">
-        <span className="flex items-center gap-1">
-          <FiShield className="text-sky-400" size={12} />
+      <div className="flex items-center justify-center gap-4 text-xs text-slate-400 pt-1 flex-wrap">
+        <span className="flex items-center gap-1.5">
+          <FiShield className="text-sky-400 shrink-0" size={13} />
           <span>100% Strict NDA Policy</span>
         </span>
         <span>•</span>
-        <span className="flex items-center gap-1">
-          <FiClock className="text-emerald-400" size={12} />
+        <span className="flex items-center gap-1.5">
+          <FiClock className="text-emerald-400 shrink-0" size={13} />
           <span>Avg Response: 2 Hours</span>
         </span>
       </div>

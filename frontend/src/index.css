@@ -2204,10 +2204,10 @@ html.light .faq-footer-help p {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 1.6rem;
+  padding: 1.5rem;
   display: flex;
   gap: 1.25rem;
-  align-items: center;
+  align-items: flex-start;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -2238,8 +2238,8 @@ html.light .faq-footer-help p {
 }
 
 .info-icon {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   border-radius: 12px;
   background: rgba(37, 99, 235, 0.12);
   border: 1px solid rgba(37, 99, 235, 0.25);
@@ -2247,12 +2247,12 @@ html.light .faq-footer-help p {
   align-items: center;
   justify-content: center;
   color: #38bdf8;
-  shrink-0: 0;
+  flex-shrink: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-card:hover .info-icon {
-  transform: scale(1.1) rotate(4deg);
+  transform: scale(1.08) rotate(3deg);
   background: rgba(56, 189, 248, 0.2);
   border-color: rgba(56, 189, 248, 0.5);
   box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
@@ -2279,6 +2279,9 @@ html.light .faq-footer-help p {
   font-size: 0.85rem;
   font-weight: 600;
   color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .form-control {

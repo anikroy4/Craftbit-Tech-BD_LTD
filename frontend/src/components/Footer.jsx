@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { 
   FiGithub, FiLinkedin, FiFacebook, FiTwitter, FiMail, 
-  FiPhone, FiMapPin, FiArrowUp, FiShield, FiHeart
+  FiPhone, FiMapPin, FiArrowUp, FiHeart
 } from 'react-icons/fi';
 
 export default function Footer() {
@@ -15,14 +15,14 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Brand Info */}
           <div className="footer-brand-col">
-            <Link to="/" className="brand mb-4 inline-flex">
+            <Link to="/" className="brand mb-4 inline-flex items-center">
               <img 
                 src="/logo.png" 
                 alt="CraftBit Tech BD Logo" 
                 className="brand-logo-img"
               />
               <div className="brand-text">
-                Craftbit <span className="text-sky-400">Tech BD</span>
+                CraftBit <span className="text-sky-400">Tech BD</span>
                 <span className="brand-sub">LTD</span>
               </div>
             </Link>
@@ -75,8 +75,8 @@ export default function Footer() {
             <h4 className="footer-col-title">Dhaka Office</h4>
             <div className="footer-contact-items">
               <div className="flex items-start gap-3 text-sm text-slate-300">
-                <FiMapPin className="text-sky-400 mt-1 shrink-0" size={16} />
-                <span>15-A/A1, Lane 2, Gopibagh, Dhaka-1203, Bangladesh</span>
+                <FiMapPin className="text-sky-400 mt-0.5 shrink-0" size={16} />
+                <span className="leading-snug">15-A/A1, Lane 2, Gopibagh, Dhaka-1203, Bangladesh</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-300">
                 <FiMail className="text-sky-400 shrink-0" size={16} />
@@ -90,19 +90,15 @@ export default function Footer() {
                   01774381687
                 </a>
               </div>
-              <div className="flex items-center gap-2 text-xs text-emerald-400 pt-1 font-semibold">
-                <FiShield size={14} />
-                <span>Government Registered Entity (Govt of Bangladesh)</span>
-              </div>
             </div>
           </div>
         </div>
 
         {/* Footer Bottom */}
         <div className="footer-bottom">
-          <div className="flex items-center gap-1.5">
-            <span>© {new Date().getFullYear()} Craftbit Tech BD Ltd. Built with</span>
-            <FiHeart className="text-rose-500 inline" size={13} />
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span>© {new Date().getFullYear()} CraftBit Tech BD Ltd. Built with</span>
+            <FiHeart className="text-rose-500 shrink-0 inline-block" size={14} />
             <span>in Dhaka, Bangladesh.</span>
           </div>
           <div className="flex items-center gap-6">
