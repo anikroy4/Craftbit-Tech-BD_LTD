@@ -1,0 +1,24 @@
+{
+  "name": "craftbit-backend",
+  "version": "1.0.0",
+  "description": "CraftBit Tech BD LTD - Express + Mongoose Backend API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "google-auth-library": "^11.3.1",
+    "mongoose": "^8.9.5",
+    "nodemailer": "^10.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

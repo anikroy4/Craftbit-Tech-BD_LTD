@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { FiMenu, FiX, FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
-import { toggleThemeMode } from '../redux/appSlice';
+import { FiMenu, FiX, FiArrowRight, FiSun, FiMoon, FiLock, FiLogOut, FiShield, FiUser } from 'react-icons/fi';
+import { toggleThemeMode, logoutUser } from '../redux/appSlice';
+import { toast } from 'sonner';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dispatch = useDispatch();
-  const themeMode = useSelector((state) => state.app.themeMode);
+  const { themeMode, currentUser, isAuthenticated } = useSelector((state) => state.app);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -99,7 +100,52 @@ export default function Navbar() {
                 Contact
               </NavLink>
             </li>
+            {/* Dashboard: ONLY visible if authenticated with an authorized role (admin, superadmin, moderator) */}
+            {isAuthenticated && currentUser && ['superadmin', 'admin', 'moderator'].includes(currentUser.role) && (
+              <li>
+                <NavLink 
+                  to="/dashboard" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) => `nav-link flex items-center gap-1.5 ${isActive ? 'active text-sky-400' : ''}`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                  <span>Dashboard</span>
+                </NavLink>
+              </li>
+            )}
             <li className="mobile-cta flex flex-col gap-3">
+              {isAuthenticated && currentUser ? (
+                <div className="flex flex-col gap-2">
+                  <div className="status-pill flex items-center justify-center gap-2 w-full text-center">
+                    <span>{currentUser.role === 'superadmin' ? '👑' : currentUser.role === 'admin' ? '🛡️' : '⚖️'}</span>
+                    <span>Logged in as <strong>{currentUser.name}</strong> ({currentUser.role})</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(logoutUser());
+                      setMobileMenuOpen(false);
+                      toast.info('Signed out of portal');
+                    }}
+                    className="action-btn-danger flex items-center justify-center gap-2 w-full"
+                    style={{ padding: '0.65rem 1rem', fontSize: '0.88rem' }}
+                  >
+                    <FiLogOut size={15} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn-secondary flex items-center justify-center gap-2 w-full"
+                  style={{ padding: '0.75rem 1.4rem', fontSize: '0.9rem' }}
+                >
+                  <FiLock size={15} className="text-sky-400" />
+                  <span>Portal Sign In</span>
+                </Link>
+              )}
+
               <button
                 type="button"
                 onClick={() => dispatch(toggleThemeMode())}
@@ -134,6 +180,42 @@ export default function Navbar() {
 
         {/* Desktop Action & Mobile Hamburger */}
         <div className="nav-actions">
+          {/* Auth Button or User Pill */}
+          {isAuthenticated && currentUser ? (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/dashboard"
+                className="status-pill flex items-center gap-1.5"
+                title={`Logged in as ${currentUser.name} (${currentUser.role})`}
+                style={{ padding: '0.35rem 0.85rem' }}
+              >
+                <span>{currentUser.role === 'superadmin' ? '👑' : currentUser.role === 'admin' ? '🛡️' : '⚖️'}</span>
+                <span className="font-bold text-white text-xs max-w-[85px] truncate">
+                  {currentUser.name.split(' ')[0]}
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => { dispatch(logoutUser()); toast.info('Signed out'); }}
+                className="modal-close-btn"
+                style={{ width: '32px', height: '32px' }}
+                title="Sign out of portal"
+                aria-label="Logout"
+              >
+                <FiLogOut size={14} className="text-rose-400" />
+              </button>
+            </div>
+          ) : (
+            <Link 
+              to="/login"
+              className="action-btn flex items-center gap-1.5"
+              style={{ padding: '0.45rem 0.95rem', fontSize: '0.82rem' }}
+            >
+              <FiLock size={12} className="text-sky-400" />
+              <span>Sign In</span>
+            </Link>
+          )}
+
           {/* Theme Mode Toggle Button */}
           <button
             type="button"

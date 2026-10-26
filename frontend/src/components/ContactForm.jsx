@@ -42,19 +42,21 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 600));
-    dispatch(submitQuoteRequest(formData));
-    setLoading(false);
-    setSubmitted(true);
-    toast.success('Inquiry submitted successfully! Our architects will reply shortly.');
     try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      const result = await dispatch(submitQuoteRequest(formData));
+      if (submitQuoteRequest.fulfilled.match(result)) {
+        setSubmitted(true);
+        toast.success('Inquiry submitted successfully! Our architects will reply shortly.');
+        try {
+          confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        } catch { /* fallback */ }
+      } else {
+        toast.error(result.payload || 'Submission failed. Please try again.');
+      }
     } catch {
-      // fallback
+      toast.error('Network error. Please check your connection and try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

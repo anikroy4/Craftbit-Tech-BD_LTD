@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchServices, fetchProjects } from './redux/appSlice';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -8,6 +9,8 @@ import ServicesPage from './pages/ServicesPage';
 import PortfolioPage from './pages/PortfolioPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import DashboardPage from './pages/DashboardPage';
+import LoginPage from './pages/LoginPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -17,8 +20,26 @@ function ScrollToTop() {
   return null;
 }
 
+function ProtectedDashboard() {
+  const { isAuthenticated, currentUser } = useSelector((state) => state.app);
+  const isAuthorized = isAuthenticated && currentUser && ['superadmin', 'admin', 'moderator'].includes(currentUser.role);
+
+  if (!isAuthorized) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <DashboardPage />;
+}
+
 export default function App() {
+  const dispatch = useDispatch();
   const themeMode = useSelector((state) => state.app.themeMode);
+
+  useEffect(() => {
+    // Initial fetch of live services and projects from Express + MongoDB backend
+    dispatch(fetchServices());
+    dispatch(fetchProjects());
+  }, [dispatch]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -43,6 +64,9 @@ export default function App() {
             <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/dashboard" element={<ProtectedDashboard />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signin" element={<LoginPage />} />
           </Routes>
         </main>
         <Footer />
