@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   FiShield, FiMail, FiLock, FiUser, FiArrowRight,
@@ -21,6 +21,12 @@ import { toast } from 'sonner';
 export default function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isRegisterPath = location.pathname.includes('register') || 
+                         location.pathname.includes('join') || 
+                         location.pathname.includes('signup') ||
+                         new URLSearchParams(location.search).get('mode') === 'register';
 
   const {
     currentUser,
@@ -30,7 +36,13 @@ export default function LoginPage() {
     dashboardRole
   } = useSelector((state) => state.app);
 
-  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [isRegisterMode, setIsRegisterMode] = useState(isRegisterPath);
+
+  useEffect(() => {
+    if (isRegisterPath) {
+      setIsRegisterMode(true);
+    }
+  }, [location.pathname, location.search]);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [customGoogleEmail, setCustomGoogleEmail] = useState('');
   const [customGoogleName, setCustomGoogleName] = useState('');

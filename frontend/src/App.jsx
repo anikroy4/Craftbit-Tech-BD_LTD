@@ -67,6 +67,9 @@ export default function App() {
             <Route path="/dashboard" element={<ProtectedDashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signin" element={<LoginPage />} />
+            <Route path="/join" element={<LoginPage />} />
+            <Route path="/register" element={<LoginPage />} />
+            <Route path="/signup" element={<LoginPage />} />
           </Routes>
         </main>
         <Footer />

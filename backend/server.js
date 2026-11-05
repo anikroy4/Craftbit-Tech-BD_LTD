@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 // ── Load Environment Variables ──────────────────────
@@ -70,7 +71,24 @@ app.get('/api/health', (_req, res) => {
   res.json({ success: true, message: 'CraftBit API is running 🚀' });
 });
 
-// ── 404 Handler ─────────────────────────────────────
+// ── Serve Frontend Production Build if present ─────
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    const indexPath = path.join(frontendDistPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      return res.sendFile(indexPath);
+    }
+    next();
+  });
+}
+
+// ── 404 Handler for API routes ──────────────────────
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });

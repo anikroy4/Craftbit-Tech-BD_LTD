@@ -135,15 +135,26 @@ export default function Navbar() {
                   </button>
                 </div>
               ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="btn-secondary flex items-center justify-center gap-2 w-full"
-                  style={{ padding: '0.75rem 1.4rem', fontSize: '0.9rem' }}
-                >
-                  <FiLock size={15} className="text-sky-400" />
-                  <span>Portal Sign In</span>
-                </Link>
+                <div className="flex gap-2">
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn-secondary flex items-center justify-center gap-1.5 flex-1"
+                    style={{ padding: '0.75rem 1rem', fontSize: '0.88rem' }}
+                  >
+                    <FiLock size={14} className="text-sky-400" />
+                    <span>Sign In</span>
+                  </Link>
+                  <Link
+                    to="/join"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn-secondary flex items-center justify-center gap-1.5 flex-1"
+                    style={{ padding: '0.75rem 1rem', fontSize: '0.88rem', borderColor: 'rgba(56, 189, 248, 0.4)' }}
+                  >
+                    <FiUser size={14} className="text-sky-400" />
+                    <span>Join Team</span>
+                  </Link>
+                </div>
               )}
 
               <button
@@ -206,14 +217,24 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <Link 
-              to="/login"
-              className="action-btn flex items-center gap-1.5"
-              style={{ padding: '0.45rem 0.95rem', fontSize: '0.82rem' }}
-            >
-              <FiLock size={12} className="text-sky-400" />
-              <span>Sign In</span>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link 
+                to="/login"
+                className="action-btn flex items-center gap-1.5"
+                style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem' }}
+              >
+                <FiLock size={12} className="text-sky-400" />
+                <span>Sign In</span>
+              </Link>
+              <Link 
+                to="/join"
+                className="action-btn flex items-center gap-1.5"
+                style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem', borderColor: 'rgba(56, 189, 248, 0.4)', color: '#38bdf8' }}
+              >
+                <FiUser size={12} className="text-sky-400" />
+                <span>Join</span>
+              </Link>
+            </div>
           )}
 
           {/* Theme Mode Toggle Button */}
