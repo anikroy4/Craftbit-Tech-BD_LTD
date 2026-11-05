@@ -77,23 +77,61 @@ const possibleDistPaths = [
   path.join(__dirname, 'public'),
   path.join(__dirname, 'dist'),
   path.join(__dirname, '../frontend/dist'),
+  path.join(__dirname, '..'),
+  __dirname
 ];
-const frontendDistPath = possibleDistPaths.find((p) => fs.existsSync(p));
+const frontendDistPath = possibleDistPaths.find((p) => fs.existsSync(path.join(p, 'index.html'))) || path.join(__dirname, 'public');
 
-if (frontendDistPath) {
-  app.use(express.static(frontendDistPath));
+// Serve static assets from frontend build directories
+app.use(express.static(frontendDistPath, { maxAge: '1h' }));
+if (fs.existsSync(path.join(__dirname, 'public'))) {
+  app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1h' }));
+}
+if (fs.existsSync(path.join(__dirname, 'assets'))) {
+  app.use('/assets', express.static(path.join(__dirname, 'assets'), { maxAge: '1h' }));
+}
 
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
+// Smart fallback for hashed assets: if an older cached index.html requests an older index-*.js hash
+app.get('/assets/index-*.js', (req, res, next) => {
+  const checkDirs = [
+    path.join(__dirname, 'public', 'assets'),
+    path.join(__dirname, 'assets'),
+    path.join(__dirname, '../assets'),
+    path.join(__dirname, '../frontend/dist/assets')
+  ];
+  for (const dir of checkDirs) {
+    if (fs.existsSync(dir)) {
+      const files = fs.readdirSync(dir).filter(f => f.startsWith('index-') && f.endsWith('.js'));
+      if (files.length > 0) {
+        return res.sendFile(path.join(dir, files[0]));
+      }
     }
-    const indexPath = path.join(frontendDistPath, 'index.html');
-    if (fs.existsSync(indexPath)) {
-      return res.sendFile(indexPath);
-    }
-    next();
-  });
-} else {
+  }
+  next();
+});
+
+// Never send index.html for static asset requests (prevents MIME type script crash)
+app.use('/assets', (_req, res) => {
+  res.status(404).send('Asset not found');
+});
+
+// SPA Routing: Send index.html for all page routes
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/assets')) {
+    return next();
+  }
+  const checkIndexPaths = [
+    path.join(__dirname, 'public', 'index.html'),
+    path.join(frontendDistPath, 'index.html'),
+    path.join(__dirname, 'index.html'),
+    path.join(__dirname, '../index.html')
+  ];
+  const targetIndex = checkIndexPaths.find(p => fs.existsSync(p));
+  if (targetIndex) {
+    return res.sendFile(targetIndex);
+  }
+  next();
+}); else {
   app.get('/', (_req, res) => {
     res.send(`
       <!DOCTYPE html>
