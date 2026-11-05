@@ -82,7 +82,25 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Start Server ────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 5000;
+
+const startServer = (port) => {
+  const server = app.listen(port, () => {
+    console.log(`🚀 Server running on http://localhost:${port}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE' || err.code === 'EACCES') {
+      if (port === 5000) {
+        console.warn(`⚠️ Port 5000 is occupied or restricted on this machine. Falling back to port 5001...`);
+        startServer(5001);
+      } else {
+        console.error(`❌ Port ${port} is currently in use or restricted:`, err.message);
+      }
+    } else {
+      console.error('❌ Server startup error:', err);
+    }
+  });
+};
+
+startServer(DEFAULT_PORT);
