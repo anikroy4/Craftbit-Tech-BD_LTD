@@ -8,9 +8,7 @@ import {
   FiTrendingUp, FiClock, FiEye,
   FiDollarSign, FiSearch, FiArrowUpRight,
   FiCheckCircle, FiAlertCircle,
-  FiChevronRight, FiServer, FiKey,
-  FiDownload, FiActivity, FiCopy, FiGrid, FiList,
-  FiFileText, FiZap, FiBarChart2
+  FiChevronRight, FiServer, FiKey
 } from 'react-icons/fi';
 import {
   fetchDashboardOverview,
@@ -55,73 +53,6 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'services' | 'projects' | 'quotes' | 'users'
   const [searchTerm, setSearchTerm] = useState('');
   const [quoteFilter, setQuoteFilter] = useState('all');
-  const [serviceCategoryFilter, setServiceCategoryFilter] = useState('all');
-  const [projectCategoryFilter, setProjectCategoryFilter] = useState('all');
-  const [servicesViewMode, setServicesViewMode] = useState('grid'); // 'grid' | 'table'
-  const [projectsViewMode, setProjectsViewMode] = useState('grid'); // 'grid' | 'table'
-  const [operatorNotes, setOperatorNotes] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('cb_operator_notes') || '';
-    }
-    return '';
-  });
-  const [lastSyncTime, setLastSyncTime] = useState(() => new Date().toLocaleTimeString());
-
-  // Live Dhaka Operations Clock
-  const [dhakaTime, setDhakaTime] = useState(() => {
-    return new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDhakaTime(new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleSaveNotes = (val) => {
-    setOperatorNotes(val);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cb_operator_notes', val);
-    }
-  };
-
-  const handleExportSnapshot = () => {
-    const snapshot = {
-      exportedAt: new Date().toISOString(),
-      company: 'CraftBit Tech BD LTD',
-      operator: {
-        name: currentUser?.name,
-        email: currentUser?.email,
-        role: dashboardRole,
-      },
-      counts: {
-        services: services.length,
-        projects: projects.length,
-        inquiries: quoteRequests.length,
-        teamUsers: dashboardUsers.length,
-      },
-      services,
-      projects,
-      inquiries: quoteRequests,
-      teamUsers: dashboardRole === 'superadmin' ? dashboardUsers : 'Protected',
-    };
-    const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `craftbit-operations-snapshot-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success('Operational snapshot JSON downloaded successfully!');
-  };
-
-  const copyToClipboard = (text, label) => {
-    if (navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(text);
-      toast.success(`Copied ${label} to clipboard!`);
-    }
-  };
 
   // Email Verification modal state for unverified current user
   const [showVerifyModal, setShowVerifyModal] = useState(false);
@@ -466,52 +397,21 @@ export default function DashboardPage() {
     dispatch(fetchProjects());
     dispatch(fetchQuotes());
     dispatch(fetchDashboardUsers());
-    setLastSyncTime(new Date().toLocaleTimeString());
     toast.success('Live sync with MongoDB Atlas complete');
   };
 
-  // Pipeline & Valuation Metrics
-  const estimatedPipeline = quoteRequests.reduce((total, q) => {
-    const rawBudget = q.budget || '';
-    const match = rawBudget.match(/\$?(\d[\d,]*)/);
-    if (match) {
-      const num = parseInt(match[1].replace(/,/g, ''), 10);
-      return total + (isNaN(num) ? 2500 : num);
-    }
-    return total + 2500;
-  }, 0);
-
-  const totalCatalogValue = services.reduce((acc, s) => acc + (Number(s.baseCost) || 0), 0);
-
-  const quoteStatusCounts = {
-    new: quoteRequests.filter(q => q.status === 'new').length,
-    reviewed: quoteRequests.filter(q => q.status === 'reviewed').length,
-    replied: quoteRequests.filter(q => q.status === 'replied').length,
-    closed: quoteRequests.filter(q => q.status === 'closed').length,
-  };
-
-  const totalQuotesCount = Math.max(quoteRequests.length, 1);
-
-  // Category constants
-  const serviceCategories = ['Engineering', 'Mobile', 'Cloud', 'AI', 'Security', 'Design', 'Commerce'];
-  const projectCategories = ['Web', 'Mobile', 'Cloud', 'AI', 'Commerce', 'Security'];
-
   // Filtered lists
-  const filteredServices = services.filter((s) => {
-    const matchesCategory = serviceCategoryFilter === 'all' || s.category?.toLowerCase() === serviceCategoryFilter.toLowerCase();
-    const matchesSearch = s.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.desc?.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredServices = services.filter((s) =>
+    s.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.desc?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const filteredProjects = projects.filter((p) => {
-    const matchesCategory = projectCategoryFilter === 'all' || p.category?.toLowerCase() === projectCategoryFilter.toLowerCase();
-    const matchesSearch = p.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.client?.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredProjects = projects.filter((p) =>
+    p.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.client?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const filteredQuotes = quoteRequests.filter((q) => {
     const matchesSearch =
@@ -529,114 +429,44 @@ export default function DashboardPage() {
         <title>Control Center Dashboard | CraftBit Tech BD LTD</title>
       </Helmet>
 
-      <section className="section" style={{ paddingTop: '1.5rem', paddingBottom: '5rem' }}>
+      <section className="section" style={{ paddingTop: '2rem', paddingBottom: '5rem' }}>
         <div className="container">
-
-          {/* ════════════════════════════════════════════════════════════════════
-              EXECUTIVE COMMAND COCKPIT HUD (Real-time Cluster & Ops Bar)
-          ════════════════════════════════════════════════════════════════════ */}
-          <div className="mb-8 p-3.5 sm:p-4 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5">
-            {/* Left: Cluster Pulse & Timers */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span>MongoDB Cluster0 (Online)</span>
-              </div>
-
-              <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                <FiServer size={13} className="text-sky-400" />
-                <span>Node 24 • Express API Gateway</span>
-              </div>
-
-              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-mono bg-slate-950/70 border border-slate-800/80 px-2.5 py-1 rounded-lg">
-                <FiClock size={12} className="text-amber-400 shrink-0" />
-                <span>BST Dhaka: <strong className="text-white">{dhakaTime}</strong></span>
-              </div>
-
-              <span className="text-[11px] text-slate-500 hidden lg:inline">
-                Synced: {lastSyncTime}
-              </span>
-            </div>
-
-            {/* Right: Operational Actions */}
-            <div className="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-              <button
-                onClick={handleExportSnapshot}
-                className="btn-secondary flex items-center gap-1.5"
-                style={{ padding: '0.45rem 0.85rem', fontSize: '0.78rem', height: '36px' }}
-                title="Download full operational JSON snapshot for corporate backups"
-              >
-                <FiDownload size={13} className="text-sky-400" />
-                <span>Export Snapshot</span>
-              </button>
-
-              <button
-                onClick={refreshAll}
-                className="btn-primary flex items-center gap-1.5"
-                style={{ padding: '0.45rem 0.95rem', fontSize: '0.78rem', height: '36px' }}
-                title="Resync all collections live with MongoDB Atlas"
-              >
-                <FiRefreshCw size={12} className={dashboardLoading ? 'animate-spin text-white' : ''} />
-                <span>Sync Cluster</span>
-              </button>
-            </div>
-          </div>
 
           {/* ════════════════════════════════════════════════════════════════════
               PIXEL-PERFECT HERO HEADER (Matches website style guide)
           ════════════════════════════════════════════════════════════════════ */}
-          <div className="section-header" style={{ marginBottom: '2rem' }}>
+          <div className="section-header" style={{ marginBottom: '2.5rem' }}>
             <div className="badge flex items-center gap-1.5 mx-auto" style={{ marginBottom: '1rem' }}>
-              <FiZap className="text-sky-400" size={13} />
-              <span>MongoDB Atlas & Express RBAC Engine</span>
+              <FiServer className="text-sky-400" size={13} />
+              <span>MongoDB Atlas & Express Control Engine</span>
             </div>
             <h1 className="section-title">
               CraftBit <span className="gradient-text">Operations Center</span>
             </h1>
             <p className="section-subtitle">
-              Unified digital operations portal: real-time service catalogs, case studies, inbound client inquiries, and team governance.
+              Role-Based Access Control: Real-time Mongoose data synchronization across SuperAdmin, Admin, and Moderator.
             </p>
           </div>
 
-          {/* Role Privilege Notice + Operator Identity Card */}
+          {/* Role Privilege Notice (Styled exactly like website .nda-card) */}
           <div className="nda-card" style={{ marginBottom: '2.5rem', padding: '1.25rem 1.5rem' }}>
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-              <div className="flex items-start sm:items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
-                  <FiShield size={20} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-white font-bold text-sm">
-                      Active Operator: <strong className="text-sky-400">{currentUser?.name || 'Administrator'}</strong>
-                    </span>
-                    <span className="text-xs text-slate-400 font-mono">({currentUser?.email})</span>
-                    {currentUser?.isEmailVerified && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">
-                        <FiCheckCircle size={10} /> Verified
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mt-1" style={{ margin: 0 }}>
-                    <strong className="text-sky-400 uppercase tracking-wider font-bold">
-                      {dashboardRole} Authority:
-                    </strong>{' '}
-                    {isSuperAdmin
-                      ? 'Full unrestricted administrative control. Create, update, and delete services/projects, triage customer quotes, register new accounts, and assign SuperAdmin, Admin, or Moderator roles.'
-                      : isAdmin
-                      ? 'Operational administrative access. Manage catalog services, portfolio projects, triage customer quotes, and promote Moderators to Admin. Registering accounts and SuperAdmin role assignment are exclusively reserved for SuperAdmin.'
-                      : 'Moderator contributor access. View live data collections, draft and update service and portfolio content. User RBAC mutations and customer inquiry triage are disabled.'}
-                  </p>
-                </div>
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-2.5">
+                <FiShield className="text-sky-400 shrink-0" size={18} />
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed" style={{ margin: 0 }}>
+                  <strong className="text-sky-400 uppercase tracking-wider font-bold">
+                    {dashboardRole} Privileges:
+                  </strong>{' '}
+                  {isSuperAdmin
+                    ? 'Full unrestricted administrative control. Create, update, and delete services/projects, triage customer quotes, register new accounts, and assign SuperAdmin, Admin, or Moderator roles.'
+                    : isAdmin
+                    ? 'Operational administrative access. Manage catalog services, portfolio projects, triage customer quotes, and promote Moderators to Admin. Registering accounts and SuperAdmin role assignment are exclusively reserved for SuperAdmin.'
+                    : 'Moderator contributor access. View live data collections, draft and update service and portfolio content. User RBAC mutations and customer inquiry triage are disabled.'}
+                </p>
               </div>
-              <div className="flex items-center gap-2 self-start lg:self-auto shrink-0">
-                <span className="badge" style={{ marginBottom: 0, textTransform: 'uppercase', fontSize: '0.72rem', letterSpacing: '0.05em' }}>
-                  {dashboardRole}
-                </span>
-              </div>
+              <span className="badge" style={{ marginBottom: 0, textTransform: 'uppercase', fontSize: '0.72rem' }}>
+                {dashboardRole}
+              </span>
             </div>
           </div>
 
@@ -847,186 +677,6 @@ export default function DashboardPage() {
 
               </div>
 
-              {/* ════════════════════════════════════════════════════════════════════
-                  EXECUTIVE DEAL PIPELINE & CAPITAL VALUATION
-              ════════════════════════════════════════════════════════════════════ */}
-              <div className="dashboard-panel">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center">
-                        <FiBarChart2 size={16} />
-                      </div>
-                      <h3 className="text-lg font-bold text-white">Commercial Deal Pipeline & Capital Assets</h3>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1">
-                      Dynamic valuation metrics computed from active catalog base fees and client budget projections.
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                      Real-Time Estimates
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-3 border-t border-white/5">
-                  <div className="p-3.5 rounded-xl bg-slate-950/50 border border-slate-800">
-                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Gross Lead Pipeline</span>
-                    <p className="text-2xl font-black text-white mt-1">
-                      ${estimatedPipeline.toLocaleString()} <span className="text-xs text-sky-400 font-normal">USD</span>
-                    </p>
-                    <span className="text-[11px] text-slate-400 mt-1 block">From {quoteRequests.length} incoming inquiries</span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-950/50 border border-slate-800">
-                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Catalog Base Capital</span>
-                    <p className="text-2xl font-black text-white mt-1">
-                      ${totalCatalogValue.toLocaleString()} <span className="text-xs text-purple-400 font-normal">USD</span>
-                    </p>
-                    <span className="text-[11px] text-slate-400 mt-1 block">Cumulative service baseline</span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-950/50 border border-slate-800">
-                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Lead Velocity</span>
-                    <p className="text-2xl font-black text-emerald-400 mt-1">
-                      {Math.round(((quoteStatusCounts.replied + quoteStatusCounts.reviewed) / totalQuotesCount) * 100)}%
-                    </p>
-                    <span className="text-[11px] text-slate-400 mt-1 block">Triage engagement rate</span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-slate-950/50 border border-slate-800">
-                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Avg. Project Fee</span>
-                    <p className="text-2xl font-black text-amber-400 mt-1">
-                      ${Math.round(totalCatalogValue / Math.max(services.length, 1)).toLocaleString()}
-                    </p>
-                    <span className="text-[11px] text-slate-400 mt-1 block">Mean service delivery price</span>
-                  </div>
-                </div>
-
-                {/* Segmented Pipeline Progress Bar */}
-                <div className="mt-5 pt-4 border-t border-white/5">
-                  <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                    <span className="font-semibold text-slate-300">Inquiry Conversion Funnel</span>
-                    <span className="font-mono text-[11px]">Total: {quoteRequests.length} Leads</span>
-                  </div>
-                  <div className="h-3 w-full bg-slate-950 rounded-full overflow-hidden flex border border-slate-800">
-                    <div
-                      style={{ width: `${(quoteStatusCounts.new / totalQuotesCount) * 100}%` }}
-                      className="bg-amber-400 transition-all duration-500"
-                      title={`New: ${quoteStatusCounts.new}`}
-                    />
-                    <div
-                      style={{ width: `${(quoteStatusCounts.reviewed / totalQuotesCount) * 100}%` }}
-                      className="bg-sky-400 transition-all duration-500"
-                      title={`Reviewed: ${quoteStatusCounts.reviewed}`}
-                    />
-                    <div
-                      style={{ width: `${(quoteStatusCounts.replied / totalQuotesCount) * 100}%` }}
-                      className="bg-emerald-400 transition-all duration-500"
-                      title={`Replied: ${quoteStatusCounts.replied}`}
-                    />
-                    <div
-                      style={{ width: `${(quoteStatusCounts.closed / totalQuotesCount) * 100}%` }}
-                      className="bg-slate-600 transition-all duration-500"
-                      title={`Closed: ${quoteStatusCounts.closed}`}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-slate-400 mt-2 flex-wrap gap-2">
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span> New ({quoteStatusCounts.new})</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Reviewed ({quoteStatusCounts.reviewed})</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Replied ({quoteStatusCounts.replied})</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-slate-600"></span> Closed ({quoteStatusCounts.closed})</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* ════════════════════════════════════════════════════════════════════
-                  2-COLUMN EXECUTIVE TOOLS: CAPABILITY MATRIX & OPERATOR NOTES
-              ════════════════════════════════════════════════════════════════════ */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* Capability Matrix */}
-                <div className="dashboard-panel">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <FiActivity className="text-purple-400" size={18} />
-                      <h4 className="text-base font-bold text-white">Services Capability Distribution</h4>
-                    </div>
-                    <span className="text-xs text-purple-400 font-mono font-bold">
-                      {services.length} Total Offerings
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-slate-400 mb-4">
-                    Active technological distribution across primary engineering verticals in the CraftBit catalog.
-                  </p>
-
-                  <div className="space-y-3">
-                    {serviceCategories.map((cat) => {
-                      const count = services.filter(s => s.category?.toLowerCase() === cat.toLowerCase()).length;
-                      const percentage = Math.round((count / Math.max(services.length, 1)) * 100);
-                      return (
-                        <div key={cat} className="space-y-1">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-slate-300 font-medium">{cat}</span>
-                            <span className="text-slate-400 font-mono">{count} ({percentage}%)</span>
-                          </div>
-                          <div className="h-1.5 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-800/80">
-                            <div
-                              className="h-full bg-gradient-to-r from-sky-500 to-purple-500 rounded-full transition-all duration-500"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Operator Shift Scratchpad */}
-                <div className="dashboard-panel flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <FiFileText className="text-sky-400" size={18} />
-                        <h4 className="text-base font-bold text-white">Operator Shift Notes & Handoff</h4>
-                      </div>
-                      <span className="text-[11px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                        Auto-Saved
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-slate-400 mb-3">
-                      Private executive notes persisted locally in your browser session for shift handoffs and reminders.
-                    </p>
-
-                    <textarea
-                      value={operatorNotes}
-                      onChange={(e) => handleSaveNotes(e.target.value)}
-                      placeholder="Write executive shift notes, client follow-up reminders, or deployment instructions here..."
-                      rows={6}
-                      className="form-control text-xs leading-relaxed"
-                      style={{ background: 'rgba(6, 9, 19, 0.7)', borderColor: 'rgba(255, 255, 255, 0.08)', resize: 'none' }}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs text-slate-400 mt-2">
-                    <span>{operatorNotes.length} characters</span>
-                    {operatorNotes && (
-                      <button
-                        onClick={() => handleSaveNotes('')}
-                        className="text-rose-400 hover:underline text-xs"
-                      >
-                        Clear Notes
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-              </div>
-
               {/* Inquiry Triage Quick Panel (Styled like website .service-deliverables-box) */}
               <div className="dashboard-panel">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -1128,7 +778,7 @@ export default function DashboardPage() {
           ════════════════════════════════════════════════════════════════════ */}
           {activeTab === 'services' && (
             <div className="space-y-6 animate-fadeIn">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <FiLayers className="text-sky-400" size={20} />
@@ -1138,210 +788,89 @@ export default function DashboardPage() {
                     Modifying items here immediately updates the public website <code className="text-sky-400">/services</code> page.
                   </p>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <div className="flex items-center p-1 rounded-xl bg-slate-950 border border-slate-800">
-                    <button
-                      onClick={() => setServicesViewMode('grid')}
-                      className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${servicesViewMode === 'grid' ? 'bg-sky-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-                      title="Grid Cards View"
-                    >
-                      <FiGrid size={14} />
-                    </button>
-                    <button
-                      onClick={() => setServicesViewMode('table')}
-                      className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${servicesViewMode === 'table' ? 'bg-sky-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-                      title="Dense Table View"
-                    >
-                      <FiList size={14} />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => handleOpenServiceModal()}
-                    className="btn-primary"
-                    style={{ padding: '0.65rem 1.35rem', fontSize: '0.85rem' }}
-                  >
-                    <FiPlus size={16} />
-                    <span>Add New Service</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Category Filter Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                 <button
-                  onClick={() => setServiceCategoryFilter('all')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${serviceCategoryFilter === 'all' ? 'bg-sky-500/20 text-sky-400 border-sky-500/40' : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white'}`}
+                  onClick={() => handleOpenServiceModal()}
+                  className="btn-primary"
+                  style={{ padding: '0.65rem 1.35rem', fontSize: '0.85rem' }}
                 >
-                  All Categories ({services.length})
+                  <FiPlus size={16} />
+                  <span>Add New Service</span>
                 </button>
-                {serviceCategories.map((cat) => {
-                  const count = services.filter(s => s.category?.toLowerCase() === cat.toLowerCase()).length;
-                  const isActive = serviceCategoryFilter.toLowerCase() === cat.toLowerCase();
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setServiceCategoryFilter(cat)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${isActive ? 'bg-sky-500/20 text-sky-400 border-sky-500/40' : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white'}`}
-                    >
-                      {cat} ({count})
-                    </button>
-                  );
-                })}
               </div>
 
-              {/* DENSE TABLE VIEW */}
-              {servicesViewMode === 'table' ? (
-                <div className="dashboard-panel">
-                  <div className="dashboard-table-wrap">
-                    <table className="dashboard-table">
-                      <thead>
-                        <tr>
-                          <th>Service Offering</th>
-                          <th>Category</th>
-                          <th>Base Investment</th>
-                          <th>Typical Timeline</th>
-                          <th className="text-right">Operations</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredServices.map((service) => (
-                          <tr key={service._id || service.id}>
-                            <td>
-                              <p className="font-bold text-white text-sm">{service.title}</p>
-                              <p className="text-xs text-slate-400 line-clamp-1 max-w-md mt-0.5">{service.desc}</p>
-                            </td>
-                            <td>
-                              <span className="badge text-[11px]" style={{ marginBottom: 0 }}>
-                                {service.category}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-emerald-400 font-bold text-sm">
-                                ${service.baseCost?.toLocaleString()} USD
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-slate-300 text-xs flex items-center gap-1">
-                                <FiClock size={12} className="text-sky-400" />
-                                {service.typicalDuration}
-                              </span>
-                            </td>
-                            <td className="text-right">
-                              <div className="flex items-center justify-end gap-2">
-                                <button
-                                  onClick={() => handleOpenServiceModal(service)}
-                                  className="action-btn"
-                                  title="Edit Service"
-                                >
-                                  <FiEdit2 size={12} />
-                                  <span>Edit</span>
-                                </button>
-                                {canDelete && (
-                                  <button
-                                    onClick={() => handleDeleteService(service._id || service.id)}
-                                    className="action-btn-danger"
-                                    title="Delete Service"
-                                  >
-                                    <FiTrash2 size={12} />
-                                    <span>Delete</span>
-                                  </button>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                        {filteredServices.length === 0 && (
-                          <tr>
-                            <td colSpan={5} className="empty-table-cell">
-                              No services match your active filter.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ) : (
-                /* GRID CARDS VIEW */
-                <div className="services-grid">
-                  {filteredServices.map((service) => (
-                    <div key={service._id || service.id} className="service-card">
-                      <div className="flex justify-between items-start mb-3">
-                        <span className="badge" style={{ marginBottom: 0 }}>
-                          {service.category}
-                        </span>
-                        <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                          From ${service.baseCost?.toLocaleString()}
+              {/* Service Cards Grid (Uses website .service-card exact layout) */}
+              <div className="services-grid">
+                {filteredServices.map((service) => (
+                  <div key={service._id || service.id} className="service-card">
+                    <div className="flex justify-between items-start mb-3">
+                      <span className="badge" style={{ marginBottom: 0 }}>
+                        {service.category}
+                      </span>
+                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                        From ${service.baseCost?.toLocaleString()}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-white mb-2">{service.title}</h3>
+                    <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4 grow">{service.desc}</p>
+
+                    <div className="service-meta-strip" style={{ marginBottom: '1rem' }}>
+                      <div className="service-meta-item">
+                        <span className="service-meta-label">Est. Timeline</span>
+                        <span className="service-meta-value service-meta-duration">
+                          <FiClock size={12} className="shrink-0" />
+                          <span>{service.typicalDuration}</span>
                         </span>
                       </div>
-
-                      <h3 className="text-lg font-bold text-white mb-2">{service.title}</h3>
-                      <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4 grow">{service.desc}</p>
-
-                      <div className="service-meta-strip" style={{ marginBottom: '1rem' }}>
-                        <div className="service-meta-item">
-                          <span className="service-meta-label">Est. Timeline</span>
-                          <span className="service-meta-value service-meta-duration">
-                            <FiClock size={12} className="shrink-0" />
-                            <span>{service.typicalDuration}</span>
-                          </span>
-                        </div>
-                        <div className="service-meta-item">
-                          <span className="service-meta-label">Base Cost</span>
-                          <span className="service-meta-value service-meta-price">
-                            <FiDollarSign size={12} className="shrink-0" />
-                            <span>${service.baseCost} USD</span>
-                          </span>
-                        </div>
+                      <div className="service-meta-item">
+                        <span className="service-meta-label">Base Cost</span>
+                        <span className="service-meta-value service-meta-price">
+                          <FiDollarSign size={12} className="shrink-0" />
+                          <span>${service.baseCost} USD</span>
+                        </span>
                       </div>
+                    </div>
 
-                      {/* Features Preview */}
-                      {Array.isArray(service.features) && service.features.length > 0 && (
-                        <div className="service-deliverables-box" style={{ padding: '0.85rem 1rem', marginBottom: '1rem' }}>
-                          <ul className="service-features" style={{ borderTop: 'none', paddingTop: 0, gap: '0.4rem' }}>
-                            {service.features.slice(0, 3).map((feat, fIdx) => (
-                              <li key={fIdx} className="flex items-center gap-2 text-xs text-slate-300">
-                                <FiCheckCircle className="text-sky-400 shrink-0" size={13} />
-                                <span className="truncate">{feat}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                    {/* Features Preview */}
+                    {Array.isArray(service.features) && service.features.length > 0 && (
+                      <div className="service-deliverables-box" style={{ padding: '0.85rem 1rem', marginBottom: '1rem' }}>
+                        <ul className="service-features" style={{ borderTop: 'none', paddingTop: 0, gap: '0.4rem' }}>
+                          {service.features.slice(0, 3).map((feat, fIdx) => (
+                            <li key={fIdx} className="flex items-center gap-2 text-xs text-slate-300">
+                              <FiCheckCircle className="text-sky-400 shrink-0" size={13} />
+                              <span className="truncate">{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
-                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/5">
+                    <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/5">
+                      <button
+                        onClick={() => handleOpenServiceModal(service)}
+                        className="action-btn"
+                        title="Edit Service"
+                      >
+                        <FiEdit2 size={12} />
+                        <span>Edit</span>
+                      </button>
+
+                      {canDelete ? (
                         <button
-                          onClick={() => handleOpenServiceModal(service)}
-                          className="action-btn"
-                          title="Edit Service"
+                          onClick={() => handleDeleteService(service._id || service.id)}
+                          className="action-btn-danger"
+                          title="Delete Service (Admin/SuperAdmin)"
                         >
-                          <FiEdit2 size={12} />
-                          <span>Edit</span>
+                          <FiTrash2 size={12} />
+                          <span>Delete</span>
                         </button>
-
-                        {canDelete ? (
-                          <button
-                            onClick={() => handleDeleteService(service._id || service.id)}
-                            className="action-btn-danger"
-                            title="Delete Service (Admin/SuperAdmin)"
-                          >
-                            <FiTrash2 size={12} />
-                            <span>Delete</span>
-                          </button>
-                        ) : (
-                          <span className="text-[11px] text-slate-500 italic px-2">No delete permission</span>
-                        )}
-                      </div>
+                      ) : (
+                        <span className="text-[11px] text-slate-500 italic px-2">No delete permission</span>
+                      )}
                     </div>
-                  ))}
-                  {filteredServices.length === 0 && (
-                    <div className="col-span-full p-8 text-center bg-slate-900/40 rounded-2xl border border-slate-800 text-slate-400 text-sm">
-                      No services match your filter criteria.
-                    </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -1350,7 +879,7 @@ export default function DashboardPage() {
           ════════════════════════════════════════════════════════════════════ */}
           {activeTab === 'projects' && (
             <div className="space-y-6 animate-fadeIn">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <FiFolder className="text-purple-400" size={20} />
@@ -1360,210 +889,79 @@ export default function DashboardPage() {
                     Modifying items here immediately updates the public website <code className="text-purple-400">/portfolio</code> page.
                   </p>
                 </div>
-
-                <div className="flex items-center gap-2.5">
-                  <div className="flex items-center p-1 rounded-xl bg-slate-950 border border-slate-800">
-                    <button
-                      onClick={() => setProjectsViewMode('grid')}
-                      className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${projectsViewMode === 'grid' ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-                      title="Grid View"
-                    >
-                      <FiGrid size={14} />
-                    </button>
-                    <button
-                      onClick={() => setProjectsViewMode('table')}
-                      className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${projectsViewMode === 'table' ? 'bg-purple-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-                      title="Dense Table View"
-                    >
-                      <FiList size={14} />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => handleOpenProjectModal()}
-                    className="btn-primary"
-                    style={{ padding: '0.65rem 1.35rem', fontSize: '0.85rem' }}
-                  >
-                    <FiPlus size={16} />
-                    <span>Add Portfolio Project</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Category Filter Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                 <button
-                  onClick={() => setProjectCategoryFilter('all')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${projectCategoryFilter === 'all' ? 'bg-purple-500/20 text-purple-400 border-purple-500/40' : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white'}`}
+                  onClick={() => handleOpenProjectModal()}
+                  className="btn-primary"
+                  style={{ padding: '0.65rem 1.35rem', fontSize: '0.85rem' }}
                 >
-                  All Verticals ({projects.length})
+                  <FiPlus size={16} />
+                  <span>Add Portfolio Project</span>
                 </button>
-                {projectCategories.map((cat) => {
-                  const count = projects.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length;
-                  const isActive = projectCategoryFilter.toLowerCase() === cat.toLowerCase();
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => setProjectCategoryFilter(cat)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${isActive ? 'bg-purple-500/20 text-purple-400 border-purple-500/40' : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white'}`}
-                    >
-                      {cat} ({count})
-                    </button>
-                  );
-                })}
               </div>
 
-              {/* DENSE TABLE VIEW */}
-              {projectsViewMode === 'table' ? (
-                <div className="dashboard-panel">
-                  <div className="dashboard-table-wrap">
-                    <table className="dashboard-table">
-                      <thead>
-                        <tr>
-                          <th>Case Study Title</th>
-                          <th>Vertical</th>
-                          <th>Client / Partner</th>
-                          <th>Performance Impact</th>
-                          <th>Core Tech Stack</th>
-                          <th className="text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredProjects.map((project) => (
-                          <tr key={project._id || project.id}>
-                            <td>
-                              <p className="font-bold text-white text-sm">{project.title}</p>
-                              <p className="text-xs text-slate-400 line-clamp-1 max-w-sm mt-0.5">{project.desc}</p>
-                            </td>
-                            <td>
-                              <span className="badge text-[11px]" style={{ marginBottom: 0 }}>
-                                {project.category}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-sky-400 font-medium text-xs">
-                                {project.client || 'Enterprise Partner'}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="text-emerald-400 font-bold text-xs">
-                                {project.stats || '+100% Impact'}
-                              </span>
-                            </td>
-                            <td>
-                              <div className="flex flex-wrap gap-1 max-w-xs">
-                                {(Array.isArray(project.tech) ? project.tech : []).slice(0, 3).map((t, idx) => (
-                                  <span key={idx} className="tech-tag text-[10px] py-0.5 px-1.5">
-                                    {t}
-                                  </span>
-                                ))}
-                              </div>
-                            </td>
-                            <td className="text-right">
-                              <div className="flex items-center justify-end gap-2">
-                                <button
-                                  onClick={() => handleOpenProjectModal(project)}
-                                  className="action-btn"
-                                  title="Edit Project"
-                                >
-                                  <FiEdit2 size={12} />
-                                  <span>Edit</span>
-                                </button>
-                                {canDelete && (
-                                  <button
-                                    onClick={() => handleDeleteProject(project._id || project.id)}
-                                    className="action-btn-danger"
-                                    title="Delete Project"
-                                  >
-                                    <FiTrash2 size={12} />
-                                    <span>Delete</span>
-                                  </button>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                        {filteredProjects.length === 0 && (
-                          <tr>
-                            <td colSpan={6} className="empty-table-cell">
-                              No projects match your active filter.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ) : (
-                /* GRID CARDS VIEW */
-                <div className="portfolio-grid">
-                  {filteredProjects.map((project) => (
-                    <div key={project._id || project.id} className="project-card">
-                      {project.image && (
-                        <div className="project-thumb">
-                          <img 
-                            src={project.image} 
-                            alt={project.title} 
-                            className="project-thumb-img"
-                            loading="lazy"
-                          />
-                          <div className="project-thumb-overlay" />
-                          <span className="project-category-badge">{project.category}</span>
-                        </div>
-                      )}
+              {/* Project Cards Grid (Uses website .project-card layout) */}
+              <div className="portfolio-grid">
+                {filteredProjects.map((project) => (
+                  <div key={project._id || project.id} className="project-card">
+                    {project.image && (
+                      <div className="project-thumb">
+                        <img 
+                          src={project.image} 
+                          alt={project.title} 
+                          className="project-thumb-img"
+                          loading="lazy"
+                        />
+                        <div className="project-thumb-overlay" />
+                        <span className="project-category-badge">{project.category}</span>
+                      </div>
+                    )}
 
-                      <div className="project-info" style={{ padding: '1.5rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-2">
-                            <span className="text-xs text-sky-400 font-semibold">{project.client}</span>
-                            <span className="text-xs text-emerald-400 font-bold">{project.stats}</span>
-                          </div>
-
-                          <h3 className="project-title text-lg font-bold text-white mb-2">{project.title}</h3>
-                          <p className="project-desc text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">{project.desc}</p>
-
-                          <div className="project-tech-stack" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.25rem' }}>
-                            {(Array.isArray(project.tech) ? project.tech : []).map((t, idx) => (
-                              <span key={idx} className="tech-tag" style={{ fontSize: '0.72rem', padding: '0.2rem 0.55rem' }}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
+                    <div className="project-info" style={{ padding: '1.5rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="text-xs text-sky-400 font-semibold">{project.client}</span>
+                          <span className="text-xs text-emerald-400 font-bold">{project.stats}</span>
                         </div>
 
-                        <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/5">
-                          <button
-                            onClick={() => handleOpenProjectModal(project)}
-                            className="action-btn"
-                            title="Edit Project"
-                          >
-                            <FiEdit2 size={12} />
-                            <span>Edit</span>
-                          </button>
+                        <h3 className="project-title text-lg font-bold text-white mb-2">{project.title}</h3>
+                        <p className="project-desc text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">{project.desc}</p>
 
-                          {canDelete ? (
-                            <button
-                              onClick={() => handleDeleteProject(project._id || project.id)}
-                              className="action-btn-danger"
-                              title="Delete Project (Admin/SuperAdmin)"
-                            >
-                              <FiTrash2 size={12} />
-                              <span>Delete</span>
-                            </button>
-                          ) : (
-                            <span className="text-[11px] text-slate-500 italic px-2">No delete permission</span>
-                          )}
+                        <div className="project-tech-stack" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1.25rem' }}>
+                          {(Array.isArray(project.tech) ? project.tech : []).map((t, idx) => (
+                            <span key={idx} className="tech-tag" style={{ fontSize: '0.72rem', padding: '0.2rem 0.55rem' }}>
+                              {t}
+                            </span>
+                          ))}
                         </div>
                       </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/5">
+                        <button
+                          onClick={() => handleOpenProjectModal(project)}
+                          className="action-btn"
+                          title="Edit Project"
+                        >
+                          <FiEdit2 size={12} />
+                          <span>Edit</span>
+                        </button>
+
+                        {canDelete ? (
+                          <button
+                            onClick={() => handleDeleteProject(project._id || project.id)}
+                            className="action-btn-danger"
+                            title="Delete Project (Admin/SuperAdmin)"
+                          >
+                            <FiTrash2 size={12} />
+                            <span>Delete</span>
+                          </button>
+                        ) : (
+                          <span className="text-[11px] text-slate-500 italic px-2">No delete permission</span>
+                        )}
+                      </div>
                     </div>
-                  ))}
-                  {filteredProjects.length === 0 && (
-                    <div className="col-span-full p-8 text-center bg-slate-900/40 rounded-2xl border border-slate-800 text-slate-400 text-sm">
-                      No case studies match your active vertical.
-                    </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -1584,21 +982,15 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Status Filter Tabs */}
-                <div className="quote-filter-bar flex flex-wrap gap-1">
-                  {[
-                    { id: 'all', label: `All (${quoteRequests.length})` },
-                    { id: 'new', label: `🟡 New (${quoteStatusCounts.new})` },
-                    { id: 'reviewed', label: `🟠 Reviewed (${quoteStatusCounts.reviewed})` },
-                    { id: 'replied', label: `🟢 Replied (${quoteStatusCounts.replied})` },
-                    { id: 'closed', label: `⚪ Closed (${quoteStatusCounts.closed})` },
-                  ].map((st) => (
+                <div className="quote-filter-bar">
+                  {['all', 'new', 'reviewed', 'replied', 'closed'].map((st) => (
                     <button
-                      key={st.id}
+                      key={st}
                       type="button"
-                      onClick={() => setQuoteFilter(st.id)}
-                      className={`quote-filter-btn ${quoteFilter === st.id ? 'active' : ''}`}
+                      onClick={() => setQuoteFilter(st)}
+                      className={`quote-filter-btn ${quoteFilter === st ? 'active' : ''}`}
                     >
-                      {st.label}
+                      {st}
                     </button>
                   ))}
                 </div>
@@ -1621,19 +1013,9 @@ export default function DashboardPage() {
                         <tr key={quote._id}>
                           <td className="align-top">
                             <p className="font-bold text-white">{quote.name}</p>
-                            <div className="flex items-center gap-2 mt-0.5">
-                              <a href={`mailto:${quote.email}`} className="text-xs text-sky-400 hover:underline">
-                                {quote.email}
-                              </a>
-                              <button
-                                type="button"
-                                onClick={() => copyToClipboard(quote.email, quote.name + '\'s email')}
-                                className="text-slate-500 hover:text-sky-400 transition-colors"
-                                title="Copy email address"
-                              >
-                                <FiCopy size={11} />
-                              </button>
-                            </div>
+                            <a href={`mailto:${quote.email}`} className="text-xs text-sky-400 hover:underline block mt-0.5">
+                              {quote.email}
+                            </a>
                             <span className="text-[11px] text-slate-500 mt-1 block">
                               {quote.createdAt ? new Date(quote.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
                             </span>
@@ -1669,24 +1051,12 @@ export default function DashboardPage() {
                             )}
                           </td>
                           <td className="align-top text-right">
-                            <div className="flex items-center justify-end gap-1.5">
-                              <button
-                                onClick={() => {
-                                  setReplyQuote(quote);
-                                  setReplyText(`Hello ${quote.name},\n\nThank you for reaching out to CraftBit Tech BD LTD regarding "${quote.service || 'your software project'}". We have evaluated your scope and would love to schedule a preliminary technical consultation.\n\nBest regards,\n${currentUser?.name || 'CraftBit Team'} | CraftBit Tech BD LTD`);
-                                }}
-                                className="action-btn text-emerald-400 hover:text-emerald-300"
-                                title="Compose and dispatch Nodemailer reply"
-                              >
-                                <FiMail size={12} />
-                                <span className="hidden sm:inline">Reply</span>
-                              </button>
+                            <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => setInspectQuote(quote)}
                                 className="action-btn"
-                                title="Inspect Full Inquiry"
                               >
-                                <FiEye size={12} />
+                                <FiEye size={13} />
                                 <span>Inspect</span>
                               </button>
                               {canDelete && (
@@ -1695,7 +1065,7 @@ export default function DashboardPage() {
                                   className="action-btn-danger"
                                   title="Delete inquiry"
                                 >
-                                  <FiTrash2 size={12} />
+                                  <FiTrash2 size={13} />
                                 </button>
                               )}
                             </div>
