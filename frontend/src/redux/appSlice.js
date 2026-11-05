@@ -7,9 +7,13 @@ const getApiBase = () => {
   if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
     return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/+$/, '')}/api`;
   }
-  // When running online in production, use relative /api to prevent Mixed Content & CORS blocks
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+  // When running online on Render web service (where backend and frontend share origin)
+  if (typeof window !== 'undefined' && (window.location.hostname.includes('onrender.com') || window.location.hostname === 'craftbit-tech-bd-ltd.onrender.com')) {
     return '/api';
+  }
+  // When running on Vercel or any external host, point to live Render backend API
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://craftbit-tech-bd-ltd.onrender.com/api';
   }
   // Local development default
   if (envUrl) {

@@ -5,47 +5,6 @@ import { Helmet } from "react-helmet-async";
 import PortfolioCardGrid from "../components/PortfolioCardGrid";
 import ContactForm from "../components/ContactForm";
 import { getServiceIcon } from "../components/IconHelper";
-
-function AnimatedCounter({ end, decimals = 0, duration = 2000 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated.current) {
-            hasAnimated.current = true;
-            const startTime = performance.now();
-            const step = (currentTime) => {
-              const progress = Math.min((currentTime - startTime) / duration, 1);
-              // Ease out quad
-              const easeOut = progress * (2 - progress);
-              const currentVal = easeOut * end;
-              setCount(decimals > 0 ? parseFloat(currentVal.toFixed(decimals)) : Math.floor(currentVal));
-              if (progress < 1) {
-                requestAnimationFrame(step);
-              } else {
-                setCount(end);
-              }
-            };
-            requestAnimationFrame(step);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [end, decimals, duration]);
-
-  return <span ref={ref}>{decimals > 0 ? count.toFixed(decimals) : count}</span>;
-}
 import {
   FiArrowRight,
   FiCheckCircle,
@@ -94,6 +53,47 @@ import {
   SiGithubactions,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa6";
+
+function AnimatedCounter({ end, decimals = 0, duration = 2000 }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
+            const startTime = performance.now();
+            const step = (currentTime) => {
+              const progress = Math.min((currentTime - startTime) / duration, 1);
+              // Ease out quad
+              const easeOut = progress * (2 - progress);
+              const currentVal = easeOut * end;
+              setCount(decimals > 0 ? parseFloat(currentVal.toFixed(decimals)) : Math.floor(currentVal));
+              if (progress < 1) {
+                requestAnimationFrame(step);
+              } else {
+                setCount(end);
+              }
+            };
+            requestAnimationFrame(step);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [end, decimals, duration]);
+
+  return <span ref={ref}>{decimals > 0 ? count.toFixed(decimals) : count}</span>;
+}
 
 export default function Home() {
   const services = useSelector((state) => state.app.services);

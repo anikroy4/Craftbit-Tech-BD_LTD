@@ -11,7 +11,7 @@ import {
   FiDatabase, FiCheckCircle, FiAlertCircle, FiTag,
   FiCalendar, FiCpu, FiCompass, FiZap, FiChevronRight,
   FiDownloadCloud, FiHelpCircle, FiGrid, FiUserCheck, FiServer,
-  FiLogOut
+  FiLogOut, FiKey
 } from 'react-icons/fi';
 import {
   fetchDashboardOverview,
