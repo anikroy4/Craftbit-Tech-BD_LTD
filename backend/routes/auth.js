@@ -78,8 +78,8 @@ export const ensureDefaultAccounts = async () => {
         existing.role = 'moderator';
         needsSave = true;
       }
-      // Upgrade plain password to bcrypt
-      if (existing.password && !existing.password.startsWith('$2a$') && !existing.password.startsWith('$2b$')) {
+      // Ensure valid bcrypt hashed password
+      if (!existing.password || (!existing.password.startsWith('$2a$') && !existing.password.startsWith('$2b$'))) {
         existing.password = await hashPassword(acc.password);
         needsSave = true;
       }
