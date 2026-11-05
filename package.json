@@ -8,7 +8,7 @@
     "backend": "npm start --prefix backend",
     "frontend": "npm run dev --prefix frontend",
     "build:frontend": "npm run build --prefix frontend",
-    "build": "npm run build --prefix frontend",
+    "build": "npm run build --prefix frontend && node -e \"const fs = require('fs'); fs.cpSync('frontend/dist', 'backend/public', { recursive: true });\"",
     "install:all": "npm install --prefix backend && npm install --prefix frontend"
   }
 }

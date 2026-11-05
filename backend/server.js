@@ -31,6 +31,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5173',
   'http://localhost:5000',
   'http://localhost:3000',
+  'https://craftbit-tech-bd-ltd.onrender.com'
 ];
 
 if (process.env.CLIENT_URL) {
@@ -68,12 +69,18 @@ app.use('/api/dashboard', dashboardRoutes);
 
 // ── Health Check ────────────────────────────────────
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'CraftBit API is running 🚀' });
+  res.json({ success: true, message: 'CraftBit API is running 🚀', timestamp: new Date().toISOString() });
 });
 
-// ── Serve Frontend Production Build if present ─────
-const frontendDistPath = path.join(__dirname, '../frontend/dist');
-if (fs.existsSync(frontendDistPath)) {
+// ── Serve Frontend Production Build ─────────────────
+const possibleDistPaths = [
+  path.join(__dirname, 'public'),
+  path.join(__dirname, 'dist'),
+  path.join(__dirname, '../frontend/dist'),
+];
+const frontendDistPath = possibleDistPaths.find((p) => fs.existsSync(p));
+
+if (frontendDistPath) {
   app.use(express.static(frontendDistPath));
 
   app.get('*', (req, res, next) => {
@@ -86,11 +93,37 @@ if (fs.existsSync(frontendDistPath)) {
     }
     next();
   });
+} else {
+  app.get('/', (_req, res) => {
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>CraftBit Tech BD LTD</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #090e1a; color: #f8fafc; margin: 0; padding: 40px 20px; display: flex; align-items: center; justify-content: center; min-height: 80vh; text-align: center; }
+            .box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 36px 28px; max-width: 480px; }
+            h1 { color: #38bdf8; margin: 0 0 10px; font-size: 24px; }
+            p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin: 0 0 20px; }
+            a { display: inline-block; background: #0284c7; color: #fff; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; }
+          </style>
+        </head>
+        <body>
+          <div class="box">
+            <h1>CraftBit Tech BD LTD 🚀</h1>
+            <p>API Server is live and connected to MongoDB Atlas.</p>
+            <a href="/api/health">Check API Health Status</a>
+          </div>
+        </body>
+      </html>
+    `);
+  });
 }
 
-// ── 404 Handler for API routes ──────────────────────
+// ── 404 Handler for Unmatched API routes ────────────
 app.use((_req, res) => {
-  res.status(404).json({ success: false, message: 'Route not found' });
+  res.status(404).json({ success: false, message: 'API Route not found' });
 });
 
 // ── Global Error Handler ────────────────────────────
