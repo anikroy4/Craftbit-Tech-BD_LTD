@@ -149,7 +149,7 @@ app.get('*', (req, res, next) => {
     return res.sendFile(targetIndex);
   }
   next();
-}); else {
+});
   app.get('/', (_req, res) => {
     res.send(`
       <!DOCTYPE html>
@@ -175,7 +175,6 @@ app.get('*', (req, res, next) => {
       </html>
     `);
   });
-}
 
 // ── 404 Handler for Unmatched API routes ────────────
 app.use((_req, res) => {

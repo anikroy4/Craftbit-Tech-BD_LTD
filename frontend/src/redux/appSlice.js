@@ -195,10 +195,19 @@ export const deleteDashboardUser = createAsyncThunk('app/deleteDashboardUser', a
 // ── Async Thunks for Authentication ─────────────────────────────────────────
 export const loginUser = createAsyncThunk('app/loginUser', async (credentials, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post(`${API}/auth/login`, credentials);
+    const { data } = await axios.post(`${API}/auth/login`, credentials, { timeout: 35000 });
     return data.data;
   } catch (err) {
-    return rejectWithValue(err.response?.data?.message || 'Invalid email or password');
+    if (err.response?.data?.message) {
+      return rejectWithValue(err.response.data.message);
+    }
+    if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+      return rejectWithValue('Server is spinning up (Render cold-start). Please retry in 5 seconds.');
+    }
+    if (err.message === 'Network Error') {
+      return rejectWithValue('Network error reaching server. Please check connection or retry.');
+    }
+    return rejectWithValue(err.message || 'Authentication failed. Please check your credentials.');
   }
 });
 

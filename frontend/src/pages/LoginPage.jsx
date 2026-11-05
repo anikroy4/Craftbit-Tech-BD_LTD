@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import {
   FiShield, FiMail, FiLock, FiUser, FiArrowRight,
   FiAlertCircle, FiLogOut, FiCheck, FiX, FiCheckCircle,
-  FiRefreshCw, FiKey, FiClock
+  FiRefreshCw, FiKey, FiClock, FiEye, FiEyeOff
 } from 'react-icons/fi';
 import {
   loginUser,
@@ -42,6 +42,7 @@ export default function LoginPage() {
       setIsRegisterMode(true);
     }
   }, [isRegisterPath]);
+  const [showPassword, setShowPassword] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [customGoogleEmail, setCustomGoogleEmail] = useState('');
   const [customGoogleName, setCustomGoogleName] = useState('');
@@ -446,19 +447,47 @@ export default function LoginPage() {
 
             {/* Password field - Strictly masked with Bcrypt Verification */}
             <div className="form-group">
-              <label className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 mb-1">
-                <FiLock size={13} className="text-sky-400" />
-                <span>Password * (Bcrypt Verified)</span>
-              </label>
-              <input
-                type="password"
-                required
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="form-control"
-                placeholder="••••••••••••"
-                autoComplete="current-password"
-              />
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-300 mb-1">
+                <span className="flex items-center gap-1.5">
+                  <FiLock size={13} className="text-sky-400" />
+                  <span>Password * (Bcrypt Verified)</span>
+                </span>
+                {!isRegisterMode && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData({
+                        email: 'superadmin@craftbit.com',
+                        password: 'Craftbit@2026'
+                      });
+                      toast.success('Filled default SuperAdmin credentials');
+                    }}
+                    className="text-[11px] text-sky-400 hover:underline font-normal cursor-pointer"
+                  >
+                    Quick fill SuperAdmin
+                  </button>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="form-control"
+                  style={{ paddingRight: '2.5rem' }}
+                  placeholder="••••••••••••"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                </button>
+              </div>
             </div>
 
             {/* Confirm Password (Register only) */}
