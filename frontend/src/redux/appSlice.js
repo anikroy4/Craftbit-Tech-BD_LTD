@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API = 'http://localhost:5000/api';
+const RAW_API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_BASE = RAW_API.endsWith('/api') ? RAW_API : `${RAW_API.replace(/\/+$/, '')}/api`;
+const API = API_BASE;
 
 // ── Async Thunks for Services ───────────────────────────────────────────────
 export const fetchServices = createAsyncThunk('app/fetchServices', async (_, { rejectWithValue }) => {

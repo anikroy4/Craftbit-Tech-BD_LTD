@@ -34,7 +34,8 @@ import {
   logoutUser,
   superAdminResendVerification,
   verifyEmail,
-  resendVerificationCode
+  resendVerificationCode,
+  API_BASE
 } from '../redux/appSlice';
 import { toast } from 'sonner';
 
@@ -97,7 +98,7 @@ export default function DashboardPage() {
     }
     setReplySending(true);
     try {
-      const { data } = await axios.post(`http://localhost:5000/api/quotes/${replyQuote._id}/reply`, {
+      const { data } = await axios.post(`${API_BASE}/quotes/${replyQuote._id}/reply`, {
         replyMessage: replyText,
         subject: `CraftBit Tech BD Proposal for ${replyQuote.name}`,
         adminName: currentUser?.name || 'CraftBit Team'

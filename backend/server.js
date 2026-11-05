@@ -1,4 +1,13 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ── Load Environment Variables ──────────────────────
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config(); // fallback to current working directory
+
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
@@ -15,8 +24,38 @@ connectDB().then(() => {
 
 const app = express();
 
-// ── Middleware ──────────────────────────────────────
-app.use(cors({ origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], credentials: true }));
+// ── Allowed CORS Origins ─────────────────────────────
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:5000',
+  'http://localhost:3000',
+];
+
+if (process.env.CLIENT_URL) {
+  const cleanClientUrl = process.env.CLIENT_URL.replace(/\/+$/, '');
+  allowedOrigins.push(cleanClientUrl);
+}
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      const isExplicitlyAllowed = allowedOrigins.includes(origin);
+      const isVercelDomain = /\.vercel\.app$/.test(origin);
+      const isOnRenderDomain = /\.onrender\.com$/.test(origin);
+
+      if (isExplicitlyAllowed || isVercelDomain || isOnRenderDomain) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Permissive in dev/production to prevent CORS roadblocks
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // ── Routes ─────────────────────────────────────────

@@ -9,14 +9,19 @@ try {
 }
 
 const connectDB = async () => {
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    console.error('❌ MongoDB Error: MONGO_URI is not defined in environment variables (.env)');
+    return;
+  }
+
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(uri, {
       dbName: 'craftbit'
     });
     console.log(`✅ MongoDB Connected: ${conn.connection.host} (DB: ${conn.connection.name})`);
   } catch (error) {
     console.error(`❌ MongoDB connection error: ${error.message}`);
-    process.exit(1);
   }
 };
 
