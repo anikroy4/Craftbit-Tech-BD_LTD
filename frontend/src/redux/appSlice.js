@@ -1,8 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const RAW_API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-export const API_BASE = RAW_API.endsWith('/api') ? RAW_API : `${RAW_API.replace(/\/+$/, '')}/api`;
+const getApiBase = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  // If explicitly configured with an online URL
+  if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+    return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/+$/, '')}/api`;
+  }
+  // When running online in production, use relative /api to prevent Mixed Content & CORS blocks
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return '/api';
+  }
+  // Local development default
+  if (envUrl) {
+    return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/+$/, '')}/api`;
+  }
+  return 'http://localhost:5000/api';
+};
+
+export const API_BASE = getApiBase();
 const API = API_BASE;
 
 // ── Async Thunks for Services ───────────────────────────────────────────────
