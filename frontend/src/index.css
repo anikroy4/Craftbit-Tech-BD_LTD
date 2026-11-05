@@ -2350,6 +2350,8 @@ html.light .faq-footer-help p {
 }
 
 .form-control {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.85rem 1.1rem;
   border-radius: 10px;
   background: rgba(6, 9, 19, 0.7);

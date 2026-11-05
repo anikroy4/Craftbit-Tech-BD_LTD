@@ -43,6 +43,7 @@ export default function LoginPage() {
     }
   }, [isRegisterPath]);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [customGoogleEmail, setCustomGoogleEmail] = useState('');
   const [customGoogleName, setCustomGoogleName] = useState('');
@@ -468,22 +469,24 @@ export default function LoginPage() {
                   </button>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="form-control"
-                  style={{ paddingRight: '2.5rem' }}
+                  className="form-control w-full"
+                  style={{ width: '100%', paddingRight: '2.75rem', boxSizing: 'border-box' }}
                   placeholder="••••••••••••"
                   autoComplete="current-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-sky-400 transition-colors cursor-pointer flex items-center justify-center p-1"
+                  style={{ background: 'transparent', border: 'none' }}
                   title={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
@@ -497,15 +500,28 @@ export default function LoginPage() {
                   <FiLock size={13} className="text-emerald-400" />
                   <span>Confirm Password *</span>
                 </label>
-                <input
-                  type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="form-control"
-                  placeholder="••••••••••••"
-                  autoComplete="new-password"
-                />
+                <div className="relative w-full">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    className="form-control w-full"
+                    style={{ width: '100%', paddingRight: '2.75rem', boxSizing: 'border-box' }}
+                    placeholder="••••••••••••"
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer flex items-center justify-center p-1"
+                    style={{ background: 'transparent', border: 'none' }}
+                    title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  </button>
+                </div>
               </div>
             )}
 
