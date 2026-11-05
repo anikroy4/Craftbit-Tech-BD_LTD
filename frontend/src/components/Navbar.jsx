@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { FiMenu, FiX, FiArrowRight, FiSun, FiMoon, FiLock, FiLogOut, FiShield, FiUser } from 'react-icons/fi';
+import { FiMenu, FiX, FiArrowRight, FiSun, FiMoon, FiLock, FiLogOut, FiUser } from 'react-icons/fi';
 import { toggleThemeMode, logoutUser } from '../redux/appSlice';
 import { toast } from 'sonner';
 
@@ -201,7 +201,7 @@ export default function Navbar() {
                 style={{ padding: '0.35rem 0.85rem' }}
               >
                 <span>{currentUser.role === 'superadmin' ? '👑' : currentUser.role === 'admin' ? '🛡️' : '⚖️'}</span>
-                <span className="font-bold text-white text-xs max-w-[85px] truncate">
+                <span className="font-bold text-white text-xs max-w-21.25 truncate">
                   {currentUser.name.split(' ')[0]}
                 </span>
               </Link>

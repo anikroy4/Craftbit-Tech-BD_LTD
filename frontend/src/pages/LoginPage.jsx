@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   FiShield, FiMail, FiLock, FiUser, FiArrowRight,
@@ -33,7 +33,6 @@ export default function LoginPage() {
     isAuthenticated,
     authLoading,
     authError,
-    dashboardRole
   } = useSelector((state) => state.app);
 
   const [isRegisterMode, setIsRegisterMode] = useState(isRegisterPath);
@@ -42,7 +41,7 @@ export default function LoginPage() {
     if (isRegisterPath) {
       setIsRegisterMode(true);
     }
-  }, [location.pathname, location.search]);
+  }, [isRegisterPath]);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [customGoogleEmail, setCustomGoogleEmail] = useState('');
   const [customGoogleName, setCustomGoogleName] = useState('');

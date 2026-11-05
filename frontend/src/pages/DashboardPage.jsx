@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import {
   FiUsers, FiLayers, FiFolder, FiMail, FiShield,
   FiPlus, FiTrash2, FiEdit2, FiCheck, FiX, FiRefreshCw,
-  FiActivity, FiTrendingUp, FiClock, FiLock, FiEye,
-  FiDollarSign, FiSearch, FiSliders, FiArrowUpRight,
-  FiDatabase, FiCheckCircle, FiAlertCircle, FiTag,
-  FiCalendar, FiCpu, FiCompass, FiZap, FiChevronRight,
-  FiDownloadCloud, FiHelpCircle, FiGrid, FiUserCheck, FiServer,
-  FiLogOut, FiKey
+  FiTrendingUp, FiClock, FiEye,
+  FiDollarSign, FiSearch, FiArrowUpRight,
+  FiCheckCircle, FiAlertCircle,
+  FiChevronRight, FiServer, FiKey
 } from 'react-icons/fi';
 import {
   fetchDashboardOverview,
@@ -30,8 +27,6 @@ import {
   createDashboardUser,
   updateUserRole,
   deleteDashboardUser,
-  setDashboardRole,
-  logoutUser,
   superAdminResendVerification,
   verifyEmail,
   resendVerificationCode,
@@ -133,7 +128,6 @@ export default function DashboardPage() {
   const isModerator = dashboardRole === 'moderator';
 
   const canDelete = isSuperAdmin || dashboardRole === 'admin';
-  const canManageUsers = isSuperAdmin;
   const canManageQuotes = isAdmin;
 
   // Handlers for Services
@@ -295,7 +289,7 @@ export default function DashboardPage() {
       return;
     }
     try {
-      const res = await dispatch(createDashboardUser(userForm)).unwrap();
+      await dispatch(createDashboardUser(userForm)).unwrap();
       toast.success(`Team member created! Verification code dispatched to ${userForm.email} via Nodemailer.`);
       setShowUserModal(false);
       setUserForm({ name: '', email: '', role: 'moderator' });

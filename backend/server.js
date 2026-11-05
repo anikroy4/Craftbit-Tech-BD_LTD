@@ -58,6 +58,15 @@ app.use(
   })
 );
 
+// ── Security Headers ─────────────────────────────────
+app.use((_req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
 app.use(express.json());
 
 // ── Routes ─────────────────────────────────────────
@@ -67,9 +76,18 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/quotes', quoteRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// ── Health Check ────────────────────────────────────
+// ── Health & Diagnostics Check ──────────────────────
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'CraftBit API is running 🚀', timestamp: new Date().toISOString() });
+  const mongoose = connectDB.mongoose || (global.mongoose);
+  const dbState = mongoose?.connection?.readyState === 1 ? 'connected' : 'connecting_or_idle';
+  res.json({
+    success: true,
+    status: 'operational',
+    service: 'CraftBit Tech BD API',
+    database: dbState,
+    uptime: `${Math.floor(process.uptime())}s`,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // ── Serve Frontend Production Build ─────────────────
